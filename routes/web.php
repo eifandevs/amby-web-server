@@ -11,6 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'IndexController@index');
+
+// Route::get('/', function () {
+//     $file = '../';
+//     return '<html><body><h1>Hello World</h1><p>this is sample page.</p></body></html>';
+//     // return view('welcome');
+// });
+
