@@ -22,7 +22,6 @@ class CreateArticlesTable extends Migration
             $table->string('url');
             $table->string('image_url');
             $table->string('published_time');
-            $table->string('source_name');
             $table->timestamps();
         });
     }
