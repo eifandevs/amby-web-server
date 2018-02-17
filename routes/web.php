@@ -11,6 +11,8 @@
 |
 */
 
+\Log::debug('html request.');
+
 Route::get('/', 'IndexController@index');
 
 // Route::get('/', function () {
