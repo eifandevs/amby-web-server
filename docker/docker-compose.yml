@@ -5,5 +5,16 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./web/default.conf:/etc/nginx/conf.d/default.conf
-      - ./data/html:/var/www/html
+      - ./data/nginx/config/default.conf:/etc/nginx/conf.d/default.conf
+      - ./data/nginx/html:/var/www/html
+  mariadb:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
