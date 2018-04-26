@@ -12,14 +12,23 @@ services:
 
   php:
     build: ./php
+    env_file: .env
+    environment:
+      DATABASE_HOST: db
+    depends_on:
+      - db
     volumes:
       - ./php/php.ini:/usr/local/etc/php/php.ini
       - ./data/www:/var/www/html
 
-  #mariadb:
-  #  image: mariadb
-  #  ports:
-  #    - 3306:3306
-  #  restart: always
-  #  environment:
-  #    MYSQL_ROOT_PASSWORD: password
+  db:
+   image: mariadb
+   env_file: .env
+   ports:
+     - 3306:3306
+   restart: always
+   volumes:
+     - db-data:/var/lib/mysql
+
+volumes:
+  db-data:
