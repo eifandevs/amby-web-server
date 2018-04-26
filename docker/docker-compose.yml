@@ -8,9 +8,9 @@ services:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
       - ./data/www:/var/www/html
     depends_on:
-      - php
+      - app
 
-  php:
+  app:
     build: ./php
     env_file: .env
     environment:
