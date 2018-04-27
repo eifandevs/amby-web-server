@@ -22,7 +22,7 @@ services:
       - ./data/www:/var/www/html
 
   db:
-   image: mariadb
+   build: ./db
    env_file: .env
    ports:
      - 3306:3306
