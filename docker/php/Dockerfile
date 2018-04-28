@@ -1,9 +1,14 @@
 FROM php:7-fpm
 
+ARG node_version="8.x"
+
 # 環境変数
 ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_HOME /composer
 ENV PATH $PATH:/composer/vendor/bin
+
+# git
+RUN apt-get update && apt-get install -y git
 
 # vim
 RUN apt-get update && apt-get install -y vim
@@ -21,15 +26,20 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && mv composer.phar /usr/local/bin/composer
 
 # node(8.x) 
-RUN apt-get update && apt-get install -my wget gnupg
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash
-RUN apt-get update && apt-get install -y nodejs
-RUN apt-get update && apt-get install -y build-essential
+RUN apt-get update && apt-get install -my wget gnupg \
+    && curl -sL https://deb.nodesource.com/setup_${node_version} | bash \
+    && apt-get update && apt-get install -y nodejs \
+    && apt-get update && apt-get install -y build-essential
 
 # laravel
 RUN composer global require "laravel/installer"
 
 # mysqlとの接続ツール
 RUN docker-php-ext-install pdo_mysql mysqli mbstring
+
+# run
+ADD run.sh /root
+RUN chmod +x /root/run.sh
+CMD /root/run.sh
 
 LABEL maintainer "eifandevs <eifan.devs@gmail.com>"
