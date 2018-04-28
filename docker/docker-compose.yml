@@ -2,16 +2,18 @@ version: '3'
 services:
   nginx:
     build: ./nginx
+    container_name: "laravel-nginx"
     ports:
       - 80:80
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
       - ./data/www:/var/www/html
     depends_on:
-      - app
+      - php
 
-  app:
+  php:
     build: ./php
+    container_name: "laravel-php"
     env_file: .env
     environment:
       DATABASE_HOST: db
@@ -23,6 +25,7 @@ services:
 
   db:
    build: ./db
+   container_name: "laravel-db"
    env_file: .env
    ports:
      - 3306:3306
