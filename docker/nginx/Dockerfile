@@ -1,8 +1,6 @@
 FROM nginx:latest
 
-RUN apt-get update
-
 # vim
-RUN apt-get install -y vim
+RUN apt-get update && apt-get install -y vim
 
 LABEL maintainer "eifandevs <eifan.devs@gmail.com>"
