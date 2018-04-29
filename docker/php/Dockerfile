@@ -38,8 +38,8 @@ RUN composer global require "laravel/installer"
 RUN docker-php-ext-install pdo_mysql mysqli mbstring
 
 # run
-ADD run.sh /root
-RUN chmod +x /root/run.sh
-CMD /root/run.sh
+WORKDIR /root
+ADD run.sh .
+RUN chmod +x run.sh
 
 LABEL maintainer "eifandevs <eifan.devs@gmail.com>"
