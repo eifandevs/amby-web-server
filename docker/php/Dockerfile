@@ -61,4 +61,7 @@ RUN composer install && npm install
 
 WORKDIR /var/www
 
+# php.ini
+ADD php.ini /usr/local/etc/php/
+
 LABEL maintainer "eifandevs <eifan.devs@gmail.com>"
