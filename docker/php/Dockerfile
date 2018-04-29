@@ -41,5 +41,6 @@ RUN docker-php-ext-install pdo_mysql mysqli mbstring
 WORKDIR /root
 ADD run.sh .
 RUN chmod +x run.sh
+# CMD ./run.sh
 
 LABEL maintainer "eifandevs <eifan.devs@gmail.com>"
