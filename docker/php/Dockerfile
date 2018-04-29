@@ -45,10 +45,20 @@ RUN apt-get update \
     && apt-get install -y libpq-dev \
     && docker-php-ext-install pdo_mysql pdo_pgsql mysqli mbstring
 
-# run
-WORKDIR /root
-ADD run.sh .
-RUN chmod +x run.sh
-# CMD ./run.sh
+WORKDIR /var/www
+
+# git clone(shallow clone)
+RUN git clone --depth=1 https://github.com/eifandevs/qas-news-client.git \
+    && git clone --depth=1 https://github.com/eifandevs/qas-news-server.git
+
+# client setup
+WORKDIR /var/www/qas-news-client
+RUN npm install && npm run build
+
+# server setup
+WORKDIR /var/www/qas-news-server
+RUN composer install && npm install
+
+WORKDIR /var/www
 
 LABEL maintainer "eifandevs <eifan.devs@gmail.com>"
