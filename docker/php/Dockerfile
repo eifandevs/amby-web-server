@@ -37,8 +37,10 @@ RUN apt-get update && apt-get install -my wget gnupg \
 # laravel
 RUN composer global require "laravel/installer"
 
-# mysqlとの接続ツール
-RUN docker-php-ext-install pdo_mysql mysqli mbstring
+# dbとの接続ツール
+RUN apt-get update \
+    && apt-get install -y libpq-dev \
+    && docker-php-ext-install pdo_mysql pdo_pgsql mysqli mbstring
 
 # run
 WORKDIR /root
