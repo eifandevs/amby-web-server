@@ -13,6 +13,9 @@ RUN apt-get update && apt-get install -y git
 # vim
 RUN apt-get update && apt-get install -y vim
 
+# procps
+RUN apt-get update && apt-get install -y procps
+
 # zip
 RUN apt-get update \
     && apt-get install -y zlib1g-dev \
