@@ -7,7 +7,7 @@ services:
       - 80:80
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - ./data/www:/root/qas-news-server/public
+      - ./data/www:/var/www/qas-news-server/public
     depends_on:
       - app
 
@@ -21,7 +21,7 @@ services:
       - db
     volumes:
       - ./php/php.ini:/usr/local/etc/php/php.ini
-      - ./data/www:/root/qas-news-server/public
+      - ./data/www:/var/www/qas-news-server/public
 
   db:
    build: ./db
