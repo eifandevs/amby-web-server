@@ -48,15 +48,15 @@ RUN apt-get update \
 WORKDIR /var/www
 
 # git clone(shallow clone)
-RUN git clone --depth=1 https://github.com/eifandevs/qas-news-client.git \
-    && git clone --depth=1 https://github.com/eifandevs/qas-news-server.git
+RUN git clone --depth=1 https://github.com/eifandevs/qass-news-client.git \
+    && git clone --depth=1 https://github.com/eifandevs/qass-news-server.git
 
 # client setup
-WORKDIR /var/www/qas-news-client
+WORKDIR /var/www/qass-news-client
 RUN npm install && npm run build
 
 # server setup
-WORKDIR /var/www/qas-news-server
+WORKDIR /var/www/qass-news-server
 RUN composer install && npm install
 
 WORKDIR /var/www

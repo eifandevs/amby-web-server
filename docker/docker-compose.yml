@@ -2,18 +2,18 @@ version: '3'
 services:
   nginx:
     build: ./nginx
-    container_name: "qas-nginx"
+    container_name: "qass-nginx"
     ports:
       - 80:80
     # volumes:
       # - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-      # - ./data/www:/var/www/qas-news-server/public
+      # - ./data/www:/var/www/qass-news-server/public
     depends_on:
       - app
 
   app:
     build: ./php
-    container_name: "qas-php"
+    container_name: "qass-php"
     env_file: .env
     environment:
       DATABASE_HOST: db
@@ -21,11 +21,11 @@ services:
       - db
     # volumes:
       # - ./php/php.ini:/usr/local/etc/php/php.ini
-      # - ./data/www:/var/www/qas-news-server/public
+      # - ./data/www:/var/www/qass-news-server/public
 
   db:
    build: ./db
-   container_name: "qas-db"
+   container_name: "qass-db"
    env_file: .env
    ports:
      - 3306:3306
