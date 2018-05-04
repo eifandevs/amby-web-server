@@ -13,6 +13,4 @@ use Illuminate\Http\Request;
 |
 */
 
-\Log::debug('api request.');
-
 Route::get('/article', 'ArticleController@index');
