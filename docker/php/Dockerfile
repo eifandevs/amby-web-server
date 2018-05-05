@@ -65,7 +65,6 @@ RUN npm install && npm run build
 
 # server setup
 WORKDIR /var/www/qass-news-server
-RUN composer install && npm install
-# RUN php artisan migrate
+RUN composer install && npm install && chmod 666 -R /var/www/qass-news-server/storage
 
 LABEL maintainer "eifandevs <eifan.devs@gmail.com>"
