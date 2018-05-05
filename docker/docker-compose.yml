@@ -10,6 +10,8 @@ services:
       # - ./data/www:/var/www/qass-news-server/public
     depends_on:
       - app
+    networks:
+      - qass_net
 
   app:
     build: ./php
@@ -22,16 +24,25 @@ services:
     # volumes:
       # - ./php/php.ini:/usr/local/etc/php/php.ini
       # - ./data/www:/var/www/qass-news-server/public
+    networks:
+      - qass_net
 
   db:
-   build: ./db
-   container_name: "qass-db"
-   env_file: .env
-   ports:
-     - 3306:3306
-   restart: always
-   volumes:
-     - db-data:/var/lib/mysql
+    build: ./db
+    container_name: "qass-db"
+    env_file: .env
+    ports:
+      - 3306:3306
+    restart: always
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - qass_net
+
 
 volumes:
   db-data:
+
+networks:
+  qass_net:
+    driver: bridge
