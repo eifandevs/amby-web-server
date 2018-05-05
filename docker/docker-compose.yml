@@ -16,9 +16,13 @@ services:
   app:
     build: ./php
     container_name: "qass-php"
-    # env_file: .app-env
+    # env_file: .env
     environment:
       DATABASE_HOST: db
+      MYSQL_DATABASE: qass
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
     depends_on:
       - db
     volumes:
@@ -30,12 +34,12 @@ services:
   db:
     build: ./db
     container_name: "qass-db"
-    # env_file: .db-env
+    # env_file: .env
     environment:
       MYSQL_DATABASE: qass
-      MYSQL_ROOT_PASSWORD: Zaq12wsx@
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: user
-      MYSQL_PASSWORD: Zaq12wsx@
+      MYSQL_PASSWORD: user
     ports:
       - 3306:3306
     restart: always
