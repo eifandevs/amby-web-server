@@ -16,6 +16,11 @@ RUN apt-get update && apt-get install -y vim
 # procps
 RUN apt-get update && apt-get install -y procps
 
+# ping
+RUN apt-get update && apt-get install -y iputils-ping net-tools
+
+# mysql-client
+RUN apt-get update && apt-get -y install mysql-client
 # zip
 RUN apt-get update \
     && apt-get install -y zlib1g-dev \
@@ -51,6 +56,12 @@ WORKDIR /var/www
 RUN git clone --depth=1 https://github.com/eifandevs/qass-news-client.git \
     && git clone --depth=1 https://github.com/eifandevs/qass-news-server.git
 
+# php.ini
+ADD php.ini /usr/local/etc/php/
+
+# env
+ADD .env /var/www/qass-news-server
+
 # client setup
 WORKDIR /var/www/qass-news-client
 RUN npm install && npm run build
@@ -58,13 +69,6 @@ RUN npm install && npm run build
 # server setup
 WORKDIR /var/www/qass-news-server
 RUN composer install && npm install
-
-WORKDIR /var/www
-
-# php.ini
-ADD php.ini /usr/local/etc/php/
-
-# env
-ADD .env /var/www/qass-news-server
+# RUN php artisan migrate
 
 LABEL maintainer "eifandevs <eifan.devs@gmail.com>"
