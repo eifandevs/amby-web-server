@@ -43,15 +43,10 @@ services:
     ports:
       - 3306:3306
     restart: always
-    volumes:
-      - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
-      - db-data:/var/lib/mysql
+    # volumes:
+      # - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
     networks:
       - qass_net
-
-
-volumes:
-  db-data:
 
 networks:
   qass_net:
