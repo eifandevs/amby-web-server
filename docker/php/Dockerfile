@@ -64,4 +64,7 @@ WORKDIR /var/www
 # php.ini
 ADD php.ini /usr/local/etc/php/
 
+# env
+ADD .env /var/www/qass-news-server
+
 LABEL maintainer "eifandevs <eifan.devs@gmail.com>"
