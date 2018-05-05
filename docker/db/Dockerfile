@@ -9,7 +9,4 @@ RUN apt-get update && apt-get install -y procps
 # ping
 RUN apt-get update && apt-get install -y iputils-ping net-tools
 
-# my.cnf
-ADD my.cnf /etc/mysql/conf.d
-
 LABEL maintainer "eifandevs <eifan.devs@gmail.com>"

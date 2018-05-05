@@ -5,8 +5,8 @@ services:
     container_name: "qass-nginx"
     ports:
       - 80:80
-    # volumes:
-      # - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
       # - ./data/www:/var/www/qass-news-server/public
     depends_on:
       - app
@@ -16,13 +16,13 @@ services:
   app:
     build: ./php
     container_name: "qass-php"
-    env_file: .env
+    # env_file: .app-env
     environment:
       DATABASE_HOST: db
     depends_on:
       - db
-    # volumes:
-      # - ./php/php.ini:/usr/local/etc/php/php.ini
+    volumes:
+      - ./php/php.ini:/usr/local/etc/php/php.ini
       # - ./data/www:/var/www/qass-news-server/public
     networks:
       - qass_net
@@ -30,11 +30,17 @@ services:
   db:
     build: ./db
     container_name: "qass-db"
-    env_file: .env
+    # env_file: .db-env
+    environment:
+      MYSQL_DATABASE: qass
+      MYSQL_ROOT_PASSWORD: Zaq12wsx@
+      MYSQL_USER: user
+      MYSQL_PASSWORD: Zaq12wsx@
     ports:
       - 3306:3306
     restart: always
     volumes:
+      - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
       - db-data:/var/lib/mysql
     networks:
       - qass_net

@@ -56,9 +56,6 @@ WORKDIR /var/www
 RUN git clone --depth=1 https://github.com/eifandevs/qass-news-client.git \
     && git clone --depth=1 https://github.com/eifandevs/qass-news-server.git
 
-# php.ini
-ADD php.ini /usr/local/etc/php/
-
 # env
 ADD .env /var/www/qass-news-server
 
