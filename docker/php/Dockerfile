@@ -62,10 +62,13 @@ ADD .env /var/www/qass-news-server
 # client setup
 WORKDIR /var/www/qass-news-client
 RUN npm install && npm run build
+RUN chmod 777 -R /var/www/qass-news-client/dist
 
 # server setup
 WORKDIR /var/www/qass-news-server
 RUN composer install && npm install
-RUN chmod 777 -R /var/www/qass-news-server/storage && chmod 777 -R /var/www/qass-news-server/vendor
+RUN chmod 777 -R /var/www/qass-news-server/storage \
+    && chmod 777 -R /var/www/qass-news-server/vendor \
+    && chmod 777 -R /var/www/qass-news-server/public
 
 LABEL maintainer "eifandevs <eifan.devs@gmail.com>"
