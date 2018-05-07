@@ -27,6 +27,7 @@ services:
       - db
     volumes:
       - ./php/php.ini:/usr/local/etc/php/php.ini
+      - ./php/www.conf:/usr/local/etc/php-fpm.d/www.conf
       # - ./data/www:/var/www/qass-news-server/public
     networks:
       - qass_net
