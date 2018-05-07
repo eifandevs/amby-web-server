@@ -21,6 +21,7 @@ RUN apt-get update && apt-get install -y iputils-ping net-tools
 
 # mysql-client
 RUN apt-get update && apt-get -y install mysql-client
+
 # zip
 RUN apt-get update \
     && apt-get install -y zlib1g-dev \
