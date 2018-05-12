@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# ソースを最新にする
+git fetch origin
+git rebase origin/master
+
 # dbコンテナの起動を待つ
 echo "Waiting for mysql..."
 until mysql -hdb -uroot -proot -P3306 &> /dev/null
