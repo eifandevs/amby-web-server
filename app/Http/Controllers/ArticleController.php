@@ -10,7 +10,7 @@ class ArticleController extends Controller
     public function index() {
         \Log::debug('article get.');
 
-        // ダミーデータ作成
+        // // ダミーデータ作成
         // $article = new Article;
         // $article->source_name = "test";
         // $article->author = "test";
@@ -21,7 +21,7 @@ class ArticleController extends Controller
         // $article->published_time = "test";
         // $article->save();
 
-        // 検索
+        // //検索
         // $articles = Article::all();
         // foreach ($articles as $row) {
         //     \Log::debug($row->url);
