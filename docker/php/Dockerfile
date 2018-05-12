@@ -46,20 +46,6 @@ RUN git clone --depth=1 https://github.com/eifandevs/qass-news-client.git \
 # env
 ADD .env /var/www/qass-news-server
 
-# client setup
-WORKDIR /var/www/qass-news-client
-RUN npm install \
-  && npm run build \
-  && chmod 777 -R /var/www/qass-news-client/dist
-
-# server setup
-WORKDIR /var/www/qass-news-server
-RUN composer install \
-  && npm install \
-  && chmod 777 -R /var/www/qass-news-server/storage \
-  && chmod 777 -R /var/www/qass-news-server/vendor \
-  && chmod 777 -R /var/www/qass-news-server/public
-
-CMD bash -c "/var/www/qass-news-client/up.sh && /var/www/qass-news-server/up.sh && /var/www/qass-news-server/migrate.sh"
+CMD bash -c "/var/www/qass-news-client/build.sh && /var/www/qass-news-server/build.sh && /var/www/qass-news-server/migrate.sh"
 
 LABEL maintainer "eifandevs <eifan.devs@gmail.com>"
