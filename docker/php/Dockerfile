@@ -60,4 +60,7 @@ RUN composer install \
   && chmod 777 -R /var/www/qass-news-server/vendor \
   && chmod 777 -R /var/www/qass-news-server/public
 
+RUN chmod +x up.sh
+CMD ["/var/www/qass-news-server/up.sh"]
+
 LABEL maintainer "eifandevs <eifan.devs@gmail.com>"
