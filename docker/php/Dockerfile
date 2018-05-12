@@ -8,27 +8,19 @@ ENV COMPOSER_HOME /composer
 ENV PATH $PATH:/composer/vendor/bin
 
 # git
-RUN apt-get update && apt-get install -y git
+RUN apt-get update && apt-get install -y \
+  git \
+  vim \
+  procps \
+  iputils-ping \
+  net-tools \
+  mysql-client \
+  zlib1g-dev \
+  libpng-dev \
+  libpq-dev
 
-# vim
-RUN apt-get update && apt-get install -y vim
-
-# procps
-RUN apt-get update && apt-get install -y procps
-
-# ping
-RUN apt-get update && apt-get install -y iputils-ping net-tools
-
-# mysql-client
-RUN apt-get update && apt-get -y install mysql-client
-
-# zip
-RUN apt-get update \
-    && apt-get install -y zlib1g-dev \
-    && docker-php-ext-install zip
-
-# png
-RUN apt-get update && apt-get install -y libpng-dev
+# zip db接続
+RUN docker-php-ext-install zip pdo_mysql pdo_pgsql mysqli mbstring
 
 # composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
@@ -40,16 +32,10 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 # node(8.x) 
 RUN apt-get update && apt-get install -my wget gnupg \
     && curl -sL https://deb.nodesource.com/setup_${node_version} | bash \
-    && apt-get update && apt-get install -y nodejs \
-    && apt-get update && apt-get install -y build-essential
+    && apt-get update && apt-get install -y nodejs build-essential
 
 # laravel
 RUN composer global require "laravel/installer"
-
-# dbとの接続ツール
-RUN apt-get update \
-    && apt-get install -y libpq-dev \
-    && docker-php-ext-install pdo_mysql pdo_pgsql mysqli mbstring
 
 WORKDIR /var/www
 
@@ -62,14 +48,16 @@ ADD .env /var/www/qass-news-server
 
 # client setup
 WORKDIR /var/www/qass-news-client
-RUN npm install && npm run build
-RUN chmod 777 -R /var/www/qass-news-client/dist
+RUN npm install \
+  && npm run build \
+  && chmod 777 -R /var/www/qass-news-client/dist
 
 # server setup
 WORKDIR /var/www/qass-news-server
-RUN composer install && npm install
-RUN chmod 777 -R /var/www/qass-news-server/storage \
-    && chmod 777 -R /var/www/qass-news-server/vendor \
-    && chmod 777 -R /var/www/qass-news-server/public
+RUN composer install \
+  && npm install \
+  && chmod 777 -R /var/www/qass-news-server/storage \
+  && chmod 777 -R /var/www/qass-news-server/vendor \
+  && chmod 777 -R /var/www/qass-news-server/public
 
 LABEL maintainer "eifandevs <eifan.devs@gmail.com>"
