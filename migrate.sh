@@ -1,6 +1,6 @@
 #!/bin/sh
 
-pushd /var/www/qass-news-server
+cd /var/www/qass-news-server
 
 # dbコンテナの起動を待つ
 echo "Waiting for mysql..."
@@ -11,5 +11,3 @@ do
 done
 
 php artisan migrate
-
-popd
