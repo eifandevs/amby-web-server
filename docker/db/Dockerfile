@@ -1,4 +1,4 @@
-FROM mariadb:latest
+FROM mariadb:10.2
 
 # vim
 RUN apt-get update && apt-get install -y \

@@ -1,4 +1,4 @@
-FROM nginx:latest
+FROM nginx:1.14
 
 ARG node_version="8.x"
 
