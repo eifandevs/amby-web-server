@@ -13,6 +13,7 @@ services:
       - app
     networks:
       - qass_net
+    tty: true
 
   app:
     build: ./php
@@ -32,6 +33,7 @@ services:
       # - ./data/www:/var/www/qass-news-server/public
     networks:
       - qass_net
+    tty: true
 
   db:
     build: ./db
@@ -49,6 +51,7 @@ services:
       # - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
     networks:
       - qass_net
+    tty: true
 
 networks:
   qass_net:
