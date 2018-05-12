@@ -14,6 +14,7 @@ services:
     networks:
       - qass_net
     tty: true
+    command: bash -c "/var/www/qass-news-client/pull.sh && /var/www/qass-news-client/build.sh && /var/www/qass-news-server/pull.sh"
 
   app:
     build: ./php
@@ -34,6 +35,7 @@ services:
     networks:
       - qass_net
     tty: true
+    command: bash -c "/var/www/qass-news-client/pull.sh && /var/www/qass-news-client/build.sh && /var/www/qass-news-server/pull.sh && /var/www/qass-news-server/build.sh && /var/www/qass-news-server/migrate.sh"
 
   db:
     build: ./db

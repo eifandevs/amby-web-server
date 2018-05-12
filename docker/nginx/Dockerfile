@@ -22,6 +22,4 @@ WORKDIR /var/www
 RUN git clone --depth=1 https://github.com/eifandevs/qass-news-client.git \
     && git clone --depth=1 https://github.com/eifandevs/qass-news-server.git
 
-CMD bash -c "/var/www/qass-news-client/pull.sh && /var/www/qass-news-client/build.sh && /var/www/qass-news-server/pull.sh"
-
 LABEL maintainer "eifandevs <eifan.devs@gmail.com>"
