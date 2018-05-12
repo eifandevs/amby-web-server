@@ -33,4 +33,6 @@ WORKDIR /var/www/qass-news-server
 RUN chmod 777 -R /var/www/qass-news-server/storage \
     && chmod 777 -R /var/www/qass-news-server/public
 
+CMD bash -c "/var/www/qass-news-client/up.sh && /var/www/qass-news-server/up.sh"
+
 LABEL maintainer "eifandevs <eifan.devs@gmail.com>"
