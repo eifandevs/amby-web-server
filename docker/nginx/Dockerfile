@@ -9,7 +9,17 @@ RUN apt-get update && apt-get install -y \
   iputils-ping \
   net-tools \
   git \
-  curl
+  curl \
+  locales
+
+# default locale to ja_JP.UTF-8
+RUN locale-gen ja_JP.UTF-8
+ENV LANG ja_JP.UTF-8
+ENV LC_CTYPE ja_JP.UTF-8
+RUN localedef -f UTF-8 -i ja_JP ja_JP.utf8
+
+# timezone
+ENV TZ Asia/Tokyo
 
 # node(8.x) 
 RUN apt-get update && apt-get install -my wget gnupg \
@@ -22,7 +32,7 @@ WORKDIR /var/www
 RUN git clone --depth=1 https://github.com/eifandevs/qass-news-client.git \
     && git clone --depth=1 https://github.com/eifandevs/qass-news-server.git
 
-# build(必ずビルドする)
+# build(no use cache)
 ADD https://www.random.org/strings/?num=10&len=8&digits=on&upperalpha=on&loweralpha=on&unique=on&format=plain&rnd=new uuid
 RUN /var/www/qass-news-client/pull.sh \
   && /var/www/qass-news-client/build.sh \

@@ -17,7 +17,17 @@ RUN apt-get update && apt-get install -y \
   mysql-client \
   zlib1g-dev \
   libpng-dev \
-  libpq-dev
+  libpq-dev \
+  locales
+
+# default locale to ja_JP.UTF-8
+RUN locale-gen ja_JP.UTF-8
+ENV LANG ja_JP.UTF-8
+ENV LC_CTYPE ja_JP.UTF-8
+RUN localedef -f UTF-8 -i ja_JP ja_JP.utf8
+
+# timezone
+ENV TZ Asia/Tokyo
 
 # zip db接続
 RUN docker-php-ext-install zip pdo_mysql pdo_pgsql mysqli mbstring
@@ -46,7 +56,7 @@ RUN git clone --depth=1 https://github.com/eifandevs/qass-news-client.git \
 # env
 ADD .env /var/www/qass-news-server
 
-# build(必ずビルドする)
+# build(no use cache)
 ADD https://www.random.org/strings/?num=10&len=8&digits=on&upperalpha=on&loweralpha=on&unique=on&format=plain&rnd=new uuid
 RUN /var/www/qass-news-client/pull.sh \
   && /var/www/qass-news-client/build.sh \
