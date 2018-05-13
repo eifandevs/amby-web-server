@@ -46,4 +46,11 @@ RUN git clone --depth=1 https://github.com/eifandevs/qass-news-client.git \
 # env
 ADD .env /var/www/qass-news-server
 
+# build(必ずビルドする)
+ADD https://www.random.org/strings/?num=10&len=8&digits=on&upperalpha=on&loweralpha=on&unique=on&format=plain&rnd=new uuid
+RUN /var/www/qass-news-client/pull.sh \
+  && /var/www/qass-news-client/build.sh \
+  && /var/www/qass-news-server/pull.sh \
+  && /var/www/qass-news-server/build.sh
+
 LABEL maintainer "eifandevs <eifan.devs@gmail.com>"
