@@ -34,8 +34,17 @@ RUN git clone --depth=1 https://github.com/eifandevs/qass-news-client.git \
 
 # build(no use cache)
 ADD https://www.random.org/strings/?num=10&len=8&digits=on&upperalpha=on&loweralpha=on&unique=on&format=plain&rnd=new uuid
-RUN /var/www/qass-news-client/pull.sh \
-  && /var/www/qass-news-client/build.sh \
-  && /var/www/qass-news-server/pull.sh
+
+# client setup
+WORKDIR /var/www/qass-news-client
+RUN npm install \
+  && npm run build \
+  && chmod 777 -R /var/www/qass-news-client/dist
+
+# server setup
+WORKDIR /var/www/qass-news-server
+RUN chmod 777 -R /var/www/qass-news-server/storage \
+  && chmod 777 -R /var/www/qass-news-server/vendor \
+  && chmod 777 -R /var/www/qass-news-server/public
 
 LABEL maintainer "eifandevs <eifan.devs@gmail.com>"
