@@ -44,7 +44,6 @@ RUN npm install \
 # server setup
 WORKDIR /var/www/qass-news-server
 RUN chmod 777 -R /var/www/qass-news-server/storage \
-  && chmod 777 -R /var/www/qass-news-server/vendor \
   && chmod 777 -R /var/www/qass-news-server/public
 
 LABEL maintainer "eifandevs <eifan.devs@gmail.com>"
