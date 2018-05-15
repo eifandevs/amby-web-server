@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd /var/www/qass-news-server
+cd `dirname $0`
 
 # ビルド
 composer install

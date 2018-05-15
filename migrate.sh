@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd /var/www/qass-news-server
+cd `dirname $0`
 
 # dbコンテナの起動を待つ
 echo "Waiting for mysql..."

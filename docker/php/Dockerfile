@@ -49,9 +49,10 @@ RUN composer global require "laravel/installer"
 
 WORKDIR /var/www
 
-# git clone(shallow clone)
+# git clone(shallow clone) & setup
 RUN git clone --depth=1 https://github.com/eifandevs/qass-news-client.git \
-    && git clone --depth=1 https://github.com/eifandevs/qass-news-server.git
+    && git clone --depth=1 https://github.com/eifandevs/qass-news-server.git \
+    && /var/www/qass-news-server/setup.sh
 
 # env
 ADD .env /var/www/qass-news-server
