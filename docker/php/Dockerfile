@@ -61,13 +61,17 @@ ADD https://www.random.org/strings/?num=10&len=8&digits=on&upperalpha=on&loweral
 
 # client setup
 WORKDIR /var/www/qass-news-client
-RUN npm install \
+RUN  git fetch origin \
+  && git rebase origin/master \
+  && npm install \
   && npm run build \
   && chmod 777 -R /var/www/qass-news-client/dist
 
 # server setup
 WORKDIR /var/www/qass-news-server
-RUN composer install \
+RUN git fetch origin \
+  && git rebase origin/master \
+  && composer install \
   && npm install \
   && chmod 777 -R /var/www/qass-news-server/storage \
   && chmod 777 -R /var/www/qass-news-server/vendor \
