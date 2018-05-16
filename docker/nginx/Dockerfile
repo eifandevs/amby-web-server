@@ -28,20 +28,11 @@ RUN apt-get update && apt-get install -my wget gnupg \
 
 WORKDIR /var/www
 
-# git clone(shallow clone)
-RUN git clone --depth=1 https://github.com/eifandevs/qass-news-client.git \
-    && git clone --depth=1 https://github.com/eifandevs/qass-news-server.git
+# shallow clone
+RUN git clone --depth=1 https://github.com/eifandevs/qass-news-server.git
 
 # build(no use cache)
 ADD https://www.random.org/strings/?num=10&len=8&digits=on&upperalpha=on&loweralpha=on&unique=on&format=plain&rnd=new uuid
-
-# client setup
-WORKDIR /var/www/qass-news-client
-RUN git fetch origin \
-  && git rebase origin/master \
-  && npm install \
-  && npm run build \
-  && chmod 777 -R /var/www/qass-news-client/dist
 
 # server setup
 WORKDIR /var/www/qass-news-server
