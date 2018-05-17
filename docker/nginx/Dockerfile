@@ -32,12 +32,10 @@ WORKDIR /var/www
 RUN git clone --depth=1 https://github.com/eifandevs/qass-news-server.git
 
 # 自己証明書を発行
-WORKDIR /root
+WORKDIR /etc/nginx
 RUN openssl genrsa 2048 > server.key \
   && openssl req -new -key server.key -subj "/C=JP/ST=Tokyo/L=Chuo-ku/O=RMP Inc./OU=web/CN=localhost" > server.csr \
   && openssl x509 -in server.csr -days 3650 -req -signkey server.key > server.crt \
-  && cp server.crt /etc/nginx/server.crt \
-  && cp server.key /etc/nginx/server.key \
   && chmod 400 /etc/nginx/server.key
 
 # build(no use cache)
