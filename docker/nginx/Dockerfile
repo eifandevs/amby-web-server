@@ -31,13 +31,6 @@ RUN apt-get update && apt-get install -my wget gnupg \
 WORKDIR /var/www
 RUN git clone --depth=1 https://github.com/eifandevs/qass-news-server.git
 
-# 自己証明書を発行
-WORKDIR /etc/nginx
-RUN openssl genrsa 2048 > server.key \
-  && openssl req -new -key server.key -subj "/C=JP/ST=Tokyo/L=Chuo-ku/O=RMP Inc./OU=web/CN=127.0.0.1" > server.csr \
-  && openssl x509 -in server.csr -days 3650 -req -signkey server.key > server.crt \
-  && chmod 400 /etc/nginx/server.key
-
 # build(no use cache)
 ADD https://www.random.org/strings/?num=10&len=8&digits=on&upperalpha=on&loweralpha=on&unique=on&format=plain&rnd=new uuid
 
