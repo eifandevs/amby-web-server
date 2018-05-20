@@ -6,8 +6,9 @@ cd `dirname $0`
 echo "Waiting for mysql..."
 until mysql -hdb -uroot -proot -P3306 &> /dev/null
 do
-        >$2 echo -n "."
+        echo -n "."
         sleep 1
 done
 
+echo "MySQL is up - executing command"
 php artisan migrate
