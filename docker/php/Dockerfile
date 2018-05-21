@@ -73,4 +73,9 @@ RUN git fetch origin \
 RUN echo '* * * * * root php /var/www/qass-news-server/artisan schedule:run' >> /etc/crontab
 CMD ["cron", "-f"]
 
+# DB構築
+# COPY entrypoint.sh /root
+# RUN chmod 777 /root/entrypoint.sh
+# ENTRYPOINT /root/entrypoint.sh
+
 LABEL maintainer "eifandevs <eifan.devs@gmail.com>"
