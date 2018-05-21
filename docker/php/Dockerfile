@@ -81,8 +81,8 @@ RUN git fetch origin \
   && chmod 777 -R /var/www/qass-news-server/public
 
 # cron
-RUN echo '* * * * * root php /var/www/qass-news-server/artisan schedule:run' >> /etc/crontab
-CMD ["cron", "-f"]
+# RUN echo '* * * * * root php /var/www/qass-news-server/artisan schedule:run' >> /etc/crontab
+# CMD ["cron", "-f"]
 
 # DB構築
 # COPY entrypoint.sh /root
