@@ -7,6 +7,17 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 ENV COMPOSER_HOME /composer
 ENV PATH $PATH:/composer/vendor/bin
 
+# プロキシ設定
+# RUN echo "HTTP_PROXY_USER={USER}" >> /root/.bashrc \
+#   && echo "HTTP_PROXY_PASS={PASSWORD}" >> /root/.bashrc \
+#   && echo "HTTP_PROXY=http://{USER}:{PASSWORD}@{DOMAIN}:{PORT}" >> /root/.bashrc \
+#   && echo "HTTPS_PROXY=http://{USER}:{PASSWORD}@{DOMAIN}:{PORT}" >> /root/.bashrc \
+#   && echo "http_proxy=http://{USER}:{PASSWORD}@{DOMAIN}:{PORT}" >> /root/.bashrc \
+#   && echo "https_proxy=http://{USER}:{PASSWORD}@{DOMAIN}:{PORT}" >> /root/.bashrc \
+#   && echo "proxy=http://{USER}:{PASSWORD}@{DOMAIN}:{PORT}" >> /root/.curlrc \
+#   && echo "Acquire::http::proxy \"http://{USER}:{PASSWORD}@{DOMAIN}:{PORT}\";" >> /etc/apt/apt.conf \
+#   && echo "Acquire::https::proxy \"http://{USER}:{PASSWORD}@{DOMAIN}:{PORT}\";" >> /etc/apt/apt.conf
+
 # git
 RUN apt-get update && apt-get install -y \
   git \
