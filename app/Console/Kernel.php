@@ -24,6 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        \Log::debug('execute schedule task.');
         // $schedule->command('inspire')
         //          ->hourly();
     }
