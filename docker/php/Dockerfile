@@ -18,7 +18,8 @@ RUN apt-get update && apt-get install -y \
   zlib1g-dev \
   libpng-dev \
   libpq-dev \
-  locales
+  locales \
+  cron
 
 # default locale to ja_JP.UTF-8
 RUN locale-gen ja_JP.UTF-8
@@ -67,5 +68,9 @@ RUN git fetch origin \
   && chmod 777 -R /var/www/qass-news-server/storage \
   && chmod 777 -R /var/www/qass-news-server/vendor \
   && chmod 777 -R /var/www/qass-news-server/public
-  
+
+# cron
+RUN echo '* * * * * root php /var/www/qass-news-server/artisan schedule:run' >> /etc/crontab
+CMD ["cron", "-f"]
+
 LABEL maintainer "eifandevs <eifan.devs@gmail.com>"

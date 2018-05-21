@@ -24,8 +24,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        \Log::debug('execute schedule task.');
-        // $schedule->command('inspire')
+        $schedule->call(function () {
+            \Log::debug('execute schedule task.');
+        })->everyMinute();
+            // $schedule->command('inspire')
         //          ->hourly();
     }
 
