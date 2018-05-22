@@ -79,9 +79,4 @@ RUN git fetch origin \
   && chmod 777 -R /var/www/qass-news-server/vendor \
   && chmod 777 -R /var/www/qass-news-server/public
 
-# DB構築
-# COPY entrypoint.sh /root
-# RUN chmod 777 /root/entrypoint.sh
-# ENTRYPOINT /root/entrypoint.sh
-
 LABEL maintainer "eifandevs <eifan.devs@gmail.com>"

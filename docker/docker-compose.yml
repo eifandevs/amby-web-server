@@ -54,6 +54,14 @@ services:
       - qass_net
     tty: true
 
+  migration:
+    build: ./migration
+    container_name: "qass-migration"
+    depends_on:
+      - db
+    networks:
+      - qass_net
+
   cron:
     build: ./cron
     container_name: "qass-cron"
