@@ -13,6 +13,14 @@ use Illuminate\Http\Request;
 |
 */
 
+// DB構築
+Route::put('/migrate', function () {
+    Artisan::call('migrate', [
+        '--force' => false,
+    ]);
+    return 'OK';
+});
+
 // 記事の取得
 Route::get('/articles', 'ArticleController@get');
 
