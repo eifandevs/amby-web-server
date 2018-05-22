@@ -13,4 +13,8 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/article', 'ArticleController@index');
+// 記事の取得
+Route::get('/articles', 'ArticleController@get');
+
+// 記事の更新
+Route::put('/articles', 'ArticleController@put');
