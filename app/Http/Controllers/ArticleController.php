@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Article;
+use App\Models\Article;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+
 class ArticleController extends Controller
 {
     public function get() {
