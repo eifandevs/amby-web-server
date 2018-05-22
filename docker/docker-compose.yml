@@ -54,6 +54,15 @@ services:
       - qass_net
     tty: true
 
+  cron:
+    build: ./cron
+    container_name: "qass-cron"
+    depends_on:
+      - nginx
+    networks:
+      - qass_net
+    tty: true
+
 networks:
   qass_net:
     driver: bridge
