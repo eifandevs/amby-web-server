@@ -53,11 +53,11 @@ class ArticleController extends Controller
                 'apiKey' => 'baab6473c743412394dc823092be475a'
             ]]
         );
-        $response_body = (string) $response->getBody();
+        $response_array = json_decode((string) $response->getBody());
 
         return response()->json([
             'code' => '0000',
-            'data' => $response_body
+            'data' => $response_array->articles
         ]);
     }
 }
