@@ -32,15 +32,32 @@ class ArticleController extends Controller
         $aricle_data = json_decode(file_get_contents($path), true);
 
         return response()->json([
-            'code' => 200,
+            'code' => '0000',
             'data' => $aricle_data
         ]);
     }
 
     public function put() {
         \Log::debug('update articles.');
+
+        $base_url = 'https://newsapi.org';
+        $client = new \GuzzleHttp\Client( [
+            'base_uri' => $base_url,
+        ]);
+        $path = '/v2/top-headlines';
+
+        $response = $client->request('GET', $path,
+            ['query' => [
+                'country' => 'jp',
+                'category' => 'business',
+                'apiKey' => 'baab6473c743412394dc823092be475a'
+            ]]
+        );
+        $response_body = (string) $response->getBody();
+
         return response()->json([
-            'code' => 200
+            'code' => '0000',
+            'data' => $response_body
         ]);
     }
 }
