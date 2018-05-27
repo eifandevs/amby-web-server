@@ -19,7 +19,7 @@ RUN localedef -f UTF-8 -i ja_JP ja_JP.utf8
 # timezone
 ENV TZ Asia/Tokyo
 
-# cron
+# cron per hour
 RUN echo '* */1 * * * root curl nginx/api/articles -X PUT' >> /etc/crontab
 CMD ["cron", "-f"]
 
