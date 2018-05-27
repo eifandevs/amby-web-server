@@ -9,12 +9,6 @@ use Illuminate\Http\Response;
 class ArticleController extends Controller
 {
     public function get() {
-        //検索
-        $articles = Article::all();
-        foreach ($articles as $row) {
-            \Log::debug($row->url);
-        }
-
         $path = storage_path() . "/mock/article_data.json";
         $aricle_data = json_decode(file_get_contents($path), true);
 
@@ -50,11 +44,13 @@ class ArticleController extends Controller
                 $response_articles = $response_array->articles;
                 if (count($response_articles) > 0) {
                     \Log::debug("update $category articles.");
-
-                    Article::truncate();
+                    
+                    // 現在のデータは削除する
+                    Article::where('category', "$category")->delete();
 
                     foreach ($response_articles as $response_article) {
                         $new_article = new Article;
+                        $new_article->category = $category;
                         $new_article->source_name = $response_article->source->name;
                         $new_article->author = $response_article->author;
                         $new_article->title = $response_article->title;
@@ -62,6 +58,7 @@ class ArticleController extends Controller
                         $new_article->url = $response_article->url;
                         $new_article->image_url = $response_article->urlToImage;
                         $new_article->published_time = $response_article->publishedAt;
+                        \Log::debug("$new_article");                        
                         $new_article->save();
                     }
                 }
