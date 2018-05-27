@@ -20,7 +20,7 @@ RUN localedef -f UTF-8 -i ja_JP ja_JP.utf8
 ENV TZ Asia/Tokyo
 
 # cron
-RUN echo '* * * * * root curl nginx/api/articles -X PUT' >> /etc/crontab
+RUN echo '* */1 * * * root curl nginx/api/articles -X PUT' >> /etc/crontab
 CMD ["cron", "-f"]
 
 LABEL maintainer "eifandevs <eifan.devs@gmail.com>"
