@@ -9,12 +9,12 @@ use Illuminate\Http\Response;
 class ArticleController extends Controller
 {
     public function get() {
-        $path = storage_path() . "/mock/article_data.json";
-        $aricle_data = json_decode(file_get_contents($path), true);
+        // $path = storage_path() . "/mock/article_data.json";
+        // $aricle_data = json_decode(file_get_contents($path), true);
 
         return response()->json([
             'code' => '0000',
-            'data' => $aricle_data
+            'data' => Article::all()
         ]);
     }
 
