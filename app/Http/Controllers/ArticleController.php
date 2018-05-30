@@ -49,6 +49,13 @@ class ArticleController extends Controller
                     Article::where('category', "$category")->delete();
 
                     foreach ($response_articles as $response_article) {
+                        // if urlToImage is http, save the image on the server
+                        $image_url = $response_article->urlToImage;
+                        if (starts_with($image_url, 'http://')) {
+                            \Log::debug("image url start with http. url: $image_url");
+                        }
+
+                        // save to database
                         $new_article = new Article;
                         $new_article->category = $category;
                         $new_article->source_name = $response_article->source->name;
