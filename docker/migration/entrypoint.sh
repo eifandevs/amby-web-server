@@ -6,4 +6,4 @@ until mysqladmin ping -hdb --silent; do
     sleep 3
 done
 
-curl nginx/api/migrate -X PUT
+curl -k https://nginx/api/migrate -X PUT

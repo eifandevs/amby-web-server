@@ -31,6 +31,10 @@ RUN apt-get update && apt-get install -my wget gnupg \
 WORKDIR /var/www
 RUN git clone --depth=1 https://github.com/eifandevs/qass-news-server.git
 
+# self-signed certificate
+COPY ./keys/server-crt.pem /etc/nginx/server-crt.pem
+COPY ./keys/server-privatekey.pem /etc/nginx/server-privatekey.pem
+
 # build(no use cache)
 ADD https://www.random.org/strings/?num=10&len=8&digits=on&upperalpha=on&loweralpha=on&unique=on&format=plain&rnd=new uuid
 
