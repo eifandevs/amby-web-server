@@ -1,13 +1,18 @@
 #!/bin/sh
 
 # CAの秘密鍵発行
-openssl genrsa -out ca.key 2048
+openssl genrsa -out ca-privatekey.pem 2048
+# CAの証明書用の署名要求作成
+openssl req -new -key ca-privatekey.pem -out ca-csr.pem -subj "/C=JP/ST=Tokyo/L=Chuo-ku/O=RMP Inc./OU=web/CN=127.0.0.1"
 # CAの証明書発行
-openssl req -new -x509 -days 3650 -key ca.key -out ca.crt -subj "/C=JP/ST=Tokyo/L=Chuo-ku/O=RMP Inc./OU=web/CN=127.0.0.1"
+openssl req -x509 -key ca-privatekey.pem -in ca-csr.pem -out ca-crt.pem -days 3560
+# CAのp12を作成
+openssl pkcs12 -export -in ca-crt.pem -inkey ca-privatekey.pem -out ca-crt.p12
 # サーバ証明書用の秘密鍵発行
-openssl genrsa -out server.key 2048
+openssl genrsa -out server-privatekey.pem
 # サーバ証明書用の署名要求発行
-openssl req -new -key server.key -out server.csr -subj "/C=JP/ST=Tokyo/L=Chuo-ku/O=RMP Inc./OU=web/CN=127.0.0.1"
+openssl req -new -key server-privatekey.pem -out server-csr.pem -subj "/C=JP/ST=Tokyo/L=Chuo-ku/O=RMP Inc./OU=web/CN=127.0.0.1"
 # 署名要求にCAの証明書と秘密鍵で署名する
-openssl x509 -req -days 3650 -CA ca.crt -CAkey ca.key -CAcreateserial -in server.csr -out server.crt
-chmod 400 server.key
+openssl x509 -req -CA ca-crt.pem -CAkey ca-privatekey.pem -CAcreateserial -in server-csr.pem -out server-crt.pem -days 3650
+
+chmod 400 server-crt.pem
