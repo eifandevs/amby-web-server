@@ -21,7 +21,7 @@ class ArticleController extends Controller
     /// update articles
     public function put() {
         $base_url = 'https://newsapi.org';
-        $api_key = 'baab6473c743412394dc823092be475a';
+        $api_key = env('NEWS_API_KEY');
         $categories = ['business', 'entertainment', 'health', 'science', 'technology', 'sports'];
         $client = new \GuzzleHttp\Client( [
             'base_uri' => $base_url,
