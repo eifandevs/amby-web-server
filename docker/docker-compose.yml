@@ -15,11 +15,6 @@ services:
       qass_app_net:
         ipv4_address: 172.16.238.10
     tty: true
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "10"
 
   app:
     build: ./php
@@ -39,11 +34,6 @@ services:
       qass_app_net:
         ipv4_address: 172.16.238.11
     tty: true
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "10"
 
   db:
     build: ./db
@@ -63,11 +53,6 @@ services:
       qass_app_net:
         ipv4_address: 172.16.238.12
     tty: true
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "10"
 
   migration:
     build: ./migration
@@ -77,11 +62,6 @@ services:
     networks:
       qass_app_net:
         ipv4_address: 172.16.238.13
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "10"
 
   cron:
     build: ./cron
@@ -92,11 +72,6 @@ services:
       qass_app_net:
         ipv4_address: 172.16.238.14
     tty: true
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "10"
         
 networks:
   qass_app_net:
