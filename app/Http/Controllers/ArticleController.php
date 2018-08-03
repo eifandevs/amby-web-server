@@ -8,18 +8,31 @@ use Illuminate\Http\Response;
 
 class ArticleController extends Controller
 {
-    public function get() {
-        // $path = storage_path() . "/mock/article_data.json";
-        // $aricle_data = json_decode(file_get_contents($path), true);
+    public function get(Request $request) {
+        $token = $request->header('X-Auth-Token');
+
+        if ($token == env('ACCESS_TOKEN')) {
+            return response()->json([
+                'code' => '0001',
+                'data' => Article::all()
+            ]);
+        }
 
         return response()->json([
-            'code' => '0000',
-            'data' => Article::all()
+            'code' => '0100'
         ]);
     }
 
     /// update articles
-    public function put() {
+    public function put(Request $request) {
+        $token = $request->header('X-Auth-Token');
+
+        if ($token != env('ACCESS_TOKEN')) {
+            return response()->json([
+                'code' => '0100'
+            ]);
+        }
+
         $base_url = 'https://newsapi.org';
         $api_key = env('NEWS_API_KEY');
         $categories = ['business', 'entertainment', 'health', 'science', 'technology', 'sports'];
@@ -74,7 +87,7 @@ class ArticleController extends Controller
         }
 
         return response()->json([
-            'code' => 'OK'
+            'code' => '0001'
         ]);
     }
 }

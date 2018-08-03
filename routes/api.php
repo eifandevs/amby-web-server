@@ -21,6 +21,9 @@ Route::put('/migrate', function () {
     return 'OK';
 });
 
+// アクセストークンの取得
+Route::get('/access_token', 'AccessTokenController@get');
+
 // 記事の取得
 Route::get('/articles', 'ArticleController@get');
 
