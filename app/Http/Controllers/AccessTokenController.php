@@ -8,9 +8,9 @@ use Illuminate\Http\Response;
 class AccessTokenController extends Controller
 {
     public function get(Request $request) {
-        $serviceName = $request->header('ServiceName');
+        $clientId = $request->header('ClientID');
 
-        if ($serviceName == 'qass-ios') {
+        if ($clientId == env('CLIENT_ID_IOS')) {
             return response()->json([
                 'code' => '0001',
                 'token' => env('ACCESS_TOKEN')
@@ -18,7 +18,7 @@ class AccessTokenController extends Controller
         }
 
         return response()->json([
-            'code' => '0100'
+            'code' => '1001'
         ]);
     }
 }
