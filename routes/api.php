@@ -13,19 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-// DB構築
-Route::put('/migrate', function () {
-    Artisan::call('migrate', [
-        '--force' => false,
-    ]);
-    return 'OK';
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
 });
-
-// アクセストークンの取得
-Route::get('/access_token', 'AccessTokenController@get');
-
-// 記事の取得
-Route::get('/articles', 'ArticleController@get');
-
-// 記事の更新
-Route::put('/articles', 'ArticleController@put');
