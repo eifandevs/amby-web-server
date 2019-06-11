@@ -16,6 +16,7 @@ class CreateReportsTable extends Migration
         Schema::create('reports', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string("report_id")->unique();
+            $table->string("user_id")->unique()->nullable();
             $table->string("messages")->nullable();
             $table->timestamps();
         });
