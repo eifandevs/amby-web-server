@@ -14,11 +14,17 @@ class CreateReportsTable extends Migration
     public function up()
     {
         Schema::create('reports', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->bigIncrements('id');
-            $table->string("report_id")->unique();
-            $table->string("user_id")->unique()->nullable();
+            $table->string("report_id");
             $table->string("messages")->nullable();
             $table->timestamps();
+
+            //外部キー制約
+            $table->foreign('report_id')
+            ->references('id')
+            ->on('users')
+            ->onDelete('cascade');
         });
     }
 
