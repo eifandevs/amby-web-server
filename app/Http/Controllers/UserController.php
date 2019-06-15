@@ -13,9 +13,13 @@ class UserController extends Controller
     }
 
     public function post(Request $request) {
-        $user_id = $request->input('user_id');
+        $id = $request->input('id');
+        $password = $request->input('password');
+        $email = $request->input('email');
         $user = new User;
-        $user->user_id = $request->user_id;
+        $user->id = $id;
+        $user->password = $password;
+        $user->email = $email;
         $user->save();
         return "<html>ok</html>";
     }
