@@ -1,11 +1,12 @@
-FROM golang:1.10.0
+FROM golang:1.12.9
 
-ENV GOROOT /usr/local/go
-ENV GOPATH /go/vendor
+ENV GO111MODULE=off
+RUN go get github.com/labstack/echo/...
 
-RUN go get github.com/labstack/echo
+WORKDIR /go/src/github.com/eifandevs/amby
 
-WORKDIR /go/src
+# RUN go get github.com/labstack/echo \
+        #    github.com/labstack/echo/middleware
 
 # CMD ["go", "run", "main.go"]
 CMD ["tail", "-f", "/dev/null"]
