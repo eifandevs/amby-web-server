@@ -1,9 +1,28 @@
 version: '3'
 services:
   app:
-    build: .
+    build: ./app
     container_name: app_go
     ports:
       - "8080:8080"
+    depends_on:
+      - "db"
+    tty: true
     volumes:
-      - "./amby:/go/src/github.com/eifandevs/amby"
+      - "./app/amby:/go/src/github.com/eifandevs/amby"
+
+  db:
+    build: ./db
+    container_name: app_db
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: amby
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: rootpassword
+    expose:
+      - "3306"
+    volumes:
+      - ./db/conf.d:/etc/mysql/conf.d
+      - ./db/log:/var/log/mysql
