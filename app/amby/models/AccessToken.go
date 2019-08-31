@@ -1,8 +1,8 @@
 package models
 
-import(
-    "github.com/eifandevs/amby/repo"
-)
+// import(
+//     "github.com/eifandevs/amby/repo"
+// )
 
 type AccessToken struct {
     Id int `json:"id"`
