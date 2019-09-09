@@ -1,9 +1,12 @@
 FROM golang:1.12.9
 
 ENV GO111MODULE=off
-RUN go get -u github.com/labstack/echo/... \
+
+RUN apt-get update \
+ && apt-get -y install default-mysql-client \
+ && go get -u github.com/labstack/echo/... \
  && go get -u github.com/jinzhu/gorm \
- && go get -u github.com/go-sql-driver/mysql
+ && go get -u github.com/jinzhu/gorm/dialects/mysql
 
 WORKDIR /go/src/github.com/eifandevs/amby
 
