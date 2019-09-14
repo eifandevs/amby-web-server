@@ -2,14 +2,13 @@ package main
 
 import (
 	"github.com/eifandevs/amby/models"
-	"github.com/eifandevs/amby/pkg"
+	"github.com/eifandevs/amby/repo"
 )
 
 func main() {
-  db := pkg.Connect("development")
+  db := repo.Connect("development")
   defer db.Close()
 
-  db.AutoMigrate(&models.Product{})
-  db.Create(&models.AccessToken{Id: 1, Name: "test"})
-  db.Create(&models.AccessToken{Id: 1, Name: "test"})
+  db.AutoMigrate(&models.AccessToken{})
+  db.Create(&models.AccessToken{Num: 1, Name: "test"})
 }

@@ -1,14 +1,20 @@
 package models
 
-// import(
-//     "github.com/eifandevs/amby/repo"
-// )
+import(
+	"github.com/jinzhu/gorm"
+)
 
 type AccessToken struct {
-    Id int `json:"id"`
+    gorm.Model
+    Num int `json:"num"`
     Name string `json:"name"`
 }
 
-func GetAccessToken() AccessToken {
-	return AccessToken{Id: 1, Name: "test"}
+type AccessTokenResponse struct {
+    Num int `json:"num"`
+    Name string `json:"name"`
+}
+
+func GetAccessToken() AccessTokenResponse {
+	return AccessTokenResponse{Num: 1, Name: "test"}
 }
