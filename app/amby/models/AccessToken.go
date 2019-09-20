@@ -6,15 +6,16 @@ import(
 
 type AccessToken struct {
     gorm.Model
-    Num int `json:"num"`
-    Name string `json:"name"`
+    Common int `json:"common"`
+    Token string `json:"token"` 
+    Expire string `json:expire`
 }
 
 type AccessTokenResponse struct {
-    Num int `json:"num"`
-    Name string `json:"name"`
+    Token string `json:"token"`
+    Expire string `json:expire`
 }
 
 func GetAccessToken() AccessTokenResponse {
-	return AccessTokenResponse{Num: 1, Name: "test"}
+	return AccessTokenResponse{Token: "token", Expire: "2019-10-10T13:50:40+09:00"}
 }

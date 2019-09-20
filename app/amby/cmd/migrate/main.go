@@ -9,6 +9,15 @@ func main() {
   db := repo.Connect("development")
   defer db.Close()
 
+  // create accesstoken table
   db.AutoMigrate(&models.AccessToken{})
-  db.Create(&models.AccessToken{Num: 1, Name: "test"})
+  db.Create(&models.AccessToken{Common: 1, Token: "token", Expire: "2019-10-10T13:50:40+09:00"})
+
+  // create user table
+  db.AutoMigrate(&models.User{})
+  db.Create(&models.User{AppID: 1, Name: "name", Mail: "mail", Token: "token"})
+
+  // create user table
+  db.AutoMigrate(&models.AppID{})
+  db.Create(&models.AppID{AppID: 1, Desc: "desc"})
 }
