@@ -16,5 +16,7 @@ func Init() *echo.Echo {
     api.GET("/favorite", controllers.GetFavorite())
   }
 
+  e.GET("/digest", interceptor.DigestAuthenticate())
+
   return e
 }

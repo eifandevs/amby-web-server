@@ -2,7 +2,7 @@ package models
 
 type MemoItem struct {
     Title string `json:"title"`
-    content string `json:"content"`
+    Content string `json:"content"`
 }
 
 type MemoResponse struct {
