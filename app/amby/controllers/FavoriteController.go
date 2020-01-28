@@ -12,3 +12,10 @@ func GetFavorite() echo.HandlerFunc {
     return c.JSON(http.StatusOK, favorites)
   }
 }
+
+func PostFavorite() echo.HandlerFunc {
+  return func(c echo.Context) error {
+    favorites := models.PostFavorite()
+    return c.JSON(http.StatusOK, favorites)
+  }
+}

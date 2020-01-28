@@ -14,3 +14,9 @@ func GetFavorite() FavoriteResponse {
     
 	return FavoriteResponse{Item: items}
 }
+
+func PostFavorite() FavoriteResponse {
+    items := []FavoriteItem{FavoriteItem{Title: "3", Url: "3"}, FavoriteItem{Title: "4", Url: "4"}}
+    
+	return FavoriteResponse{Item: items}
+}
