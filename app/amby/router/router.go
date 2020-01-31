@@ -22,8 +22,8 @@ func Init() *echo.Echo {
   api := e.Group("/api")
   {
     api.GET("/accesstoken", controllers.GetAccessToken(), interceptor.BasicAuth())
-    api.GET("/favorite", controllers.GetFavorite())
-    api.POST("/favorite", controllers.PostFavorite())
+    api.GET("/favorite", controllers.GetHandler())
+    api.POST("/favorite", controllers.PostHandler())
   }
 
   e.GET("/digest", interceptor.DigestAuthenticate())

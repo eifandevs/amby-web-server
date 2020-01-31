@@ -1,22 +1,27 @@
 package models
 
+import (
+    "log"
+)
+
 type FavoriteItem struct {
     Title string `json:"title"`
     Url string `json:"url"`
 }
 
-type FavoriteResponse struct {
+type Favorite struct {
     Item  []FavoriteItem `json:"items"`
 }
 
-func GetFavorite() FavoriteResponse {
+func GetFavorite() Favorite {
     items := []FavoriteItem{FavoriteItem{Title: "1", Url: "1"}, FavoriteItem{Title: "2", Url: "2"}}
     
-	return FavoriteResponse{Item: items}
+	return Favorite{Item: items}
 }
 
-func PostFavorite() FavoriteResponse {
+func PostFavorite(favorite Favorite) Favorite {
+    log.Println("post favorite: ", favorite)
     items := []FavoriteItem{FavoriteItem{Title: "3", Url: "3"}, FavoriteItem{Title: "4", Url: "4"}}
     
-	return FavoriteResponse{Item: items}
+	return Favorite{Item: items}
 }

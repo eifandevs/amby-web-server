@@ -6,16 +6,22 @@ import(
   "github.com/eifandevs/amby/models"
 )
 
-func GetFavorite() echo.HandlerFunc {
+func GetHandler() echo.HandlerFunc {
   return func(c echo.Context) error {
     favorites := models.GetFavorite()
     return c.JSON(http.StatusOK, favorites)
   }
 }
 
-func PostFavorite() echo.HandlerFunc {
+func PostHandler() echo.HandlerFunc {
   return func(c echo.Context) error {
-    favorites := models.PostFavorite()
-    return c.JSON(http.StatusOK, favorites)
+
+    post := new(models.Favorite)
+    if err := c.Bind(post); err != nil {
+        return err
+    }
+
+    response := models.PostFavorite(*post)
+    return c.JSON(http.StatusOK, response)
   }
 }
