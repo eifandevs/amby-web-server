@@ -40,8 +40,8 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: password
       MYSQL_ROOT_PASSWORD: rootpassword
-    expose:
-      - "3306"
+    ports:
+      - 3306:3306
     volumes:
       - ./db/conf.d:/etc/mysql/conf.d
       - ./db/log:/var/log/mysql

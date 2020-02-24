@@ -26,6 +26,7 @@ func Init() *echo.Echo {
     api.POST("/favorite", controllers.PostHandler())
   }
 
+  e.Static("/static", "./static")
   e.GET("/digest", interceptor.DigestAuthenticate())
 
   return e
