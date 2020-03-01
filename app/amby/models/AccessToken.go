@@ -6,9 +6,8 @@ import(
 
 type AccessToken struct {
     gorm.Model
-    Common int `json:"common"`
-    Token string `json:"token"` 
-    Expire string `json:expire`
+    Token string
+    Expire string
 }
 
 type AccessTokenResponse struct {
