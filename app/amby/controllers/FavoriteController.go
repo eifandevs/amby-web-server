@@ -25,3 +25,16 @@ func PostHandler() echo.HandlerFunc {
     return c.JSON(http.StatusOK, response)
   }
 }
+
+func DeleteHandler() echo.HandlerFunc {
+  return func(c echo.Context) error {
+
+    delete := new(models.DeleteFavoriteRequest)
+    if err := c.Bind(delete); err != nil {
+        return err
+    }
+
+    response := models.DeleteFavorite(*delete)
+    return c.JSON(http.StatusOK, response)
+  }
+}

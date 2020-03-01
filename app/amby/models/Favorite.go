@@ -27,6 +27,10 @@ type PostFavoriteRequest struct {
     Items  []FavoriteItem `json:"data"`
 }
 
+type DeleteFavoriteRequest struct {
+    Items  []FavoriteItem `json:"data"`
+}
+
 func GetFavorite() GetFavoriteResponse {
     items := []FavoriteItem{FavoriteItem{Title: "1", Url: "1"}, FavoriteItem{Title: "2", Url: "2"}}
     
@@ -41,6 +45,19 @@ func PostFavorite(request PostFavoriteRequest) BaseResponse {
 
     for _, item := range request.Items {
         db.Create(&Favorite{Token: "1111", Title: item.Title, Url: item.Url})
+    }
+
+	return BaseResponse{Result: "OK", ErrorCode: ""}
+}
+
+func DeleteFavorite(request DeleteFavoriteRequest) BaseResponse {
+    log.Println("delete favorite: ", request.Items)
+
+    db := repo.Connect("development")
+    defer db.Close()
+
+    for _, item := range request.Items {
+        db.Unscoped().Delete(&Favorite{Token: "1111", Title: item.Title, Url: item.Url})
     }
 
 	return BaseResponse{Result: "OK", ErrorCode: ""}

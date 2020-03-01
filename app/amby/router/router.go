@@ -25,7 +25,8 @@ func Init() *echo.Echo {
 	{
 		api.GET("/accesstoken", controllers.GetAccessToken(), interceptor.BasicAuth())
 		api.GET("/favorite", controllers.GetHandler())
-		api.POST("/favorite", controllers.PostHandler())
+    api.POST("/favorite", controllers.PostHandler())
+    api.DELETE("/favorite", controllers.DeleteHandler())
 	}
 
 	mockApi := e.Group("/mock")
