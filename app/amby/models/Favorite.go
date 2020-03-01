@@ -26,9 +26,7 @@ func GetFavorite() FavoriteResponse {
 	return FavoriteResponse{Item: items}
 }
 
-func PostFavorite(favorite Favorite) FavoriteResponse {
+func PostFavorite(favorite Favorite) CommonResponse {
     log.Println("post favorite: ", favorite)
-    items := []FavoriteItem{FavoriteItem{Title: "3", Url: "3"}, FavoriteItem{Title: "4", Url: "4"}}
-    
-	return FavoriteResponse{Item: items}
+	return CommonResponse{Result: "OK", ErrorCode: ""}
 }
