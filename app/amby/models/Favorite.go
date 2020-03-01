@@ -13,20 +13,25 @@ type FavoriteItem struct {
 type Favorite struct {
     gorm.Model
     Token string 
-    Item  []FavoriteItem
+    Items  []FavoriteItem
 }
 
-type FavoriteResponse struct {
-    Item  []FavoriteItem `json:"items"`
+type GetFavoriteResponse struct {
+    BaseResponse
+    Items  []FavoriteItem `json:"data"`
 }
 
-func GetFavorite() FavoriteResponse {
+type PostFavoriteRequest struct {
+    Items  []FavoriteItem `json:"data"`
+}
+
+func GetFavorite() GetFavoriteResponse {
     items := []FavoriteItem{FavoriteItem{Title: "1", Url: "1"}, FavoriteItem{Title: "2", Url: "2"}}
     
-	return FavoriteResponse{Item: items}
+	return GetFavoriteResponse{BaseResponse: BaseResponse{Result: "OK", ErrorCode: ""}, Items: items}
 }
 
-func PostFavorite(favorite Favorite) CommonResponse {
-    log.Println("post favorite: ", favorite)
-	return CommonResponse{Result: "OK", ErrorCode: ""}
+func PostFavorite(request PostFavoriteRequest) BaseResponse {
+    log.Println("post favorite: ", request.Items)
+	return BaseResponse{Result: "OK", ErrorCode: ""}
 }

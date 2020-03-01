@@ -16,7 +16,7 @@ func GetHandler() echo.HandlerFunc {
 func PostHandler() echo.HandlerFunc {
   return func(c echo.Context) error {
 
-    post := new(models.Favorite)
+    post := new(models.PostFavoriteRequest)
     if err := c.Bind(post); err != nil {
         return err
     }

@@ -10,11 +10,11 @@ type AccessToken struct {
     Expire string
 }
 
-type AccessTokenResponse struct {
+type GetAccessTokenResponse struct {
     Token string `json:"token"`
     Expire string `json:expire`
 }
 
-func GetAccessToken() AccessTokenResponse {
-	return AccessTokenResponse{Token: "token", Expire: "2019-10-10T13:50:40+09:00"}
+func GetAccessToken() GetAccessTokenResponse {
+	return GetAccessTokenResponse{Token: "token", Expire: "2019-10-10T13:50:40+09:00"}
 }

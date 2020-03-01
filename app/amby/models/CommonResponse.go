@@ -1,6 +1,6 @@
 package models
 
-type CommonResponse struct {
+type BaseResponse struct {
     Result string
     ErrorCode string
 }
