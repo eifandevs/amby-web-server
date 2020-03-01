@@ -3,6 +3,7 @@ package models
 import (
     "log"
     "github.com/jinzhu/gorm"
+    "github.com/eifandevs/amby/repo"
 )
 
 type FavoriteItem struct {
@@ -12,8 +13,9 @@ type FavoriteItem struct {
 
 type Favorite struct {
     gorm.Model
-    Token string 
-    Items  []FavoriteItem
+    Token string
+    Title string
+    Url string
 }
 
 type GetFavoriteResponse struct {
@@ -33,5 +35,13 @@ func GetFavorite() GetFavoriteResponse {
 
 func PostFavorite(request PostFavoriteRequest) BaseResponse {
     log.Println("post favorite: ", request.Items)
+
+    db := repo.Connect("development")
+    defer db.Close()
+
+    for _, item := range request.Items {
+        db.Create(&Favorite{Token: "1111", Title: item.Title, Url: item.Url})
+    }
+
 	return BaseResponse{Result: "OK", ErrorCode: ""}
 }
