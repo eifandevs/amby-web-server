@@ -1,7 +1,7 @@
 package router
 
 import (
-	"fmt"
+  "fmt"
 
 	"github.com/eifandevs/amby/controllers"
 	"github.com/eifandevs/amby/interceptor"
@@ -10,7 +10,10 @@ import (
 	"github.com/labstack/echo/middleware"
 )
 
-func bodyDumpHandler(c echo.Context, reqBody, resBody []byte) {
+func dumpHandler(c echo.Context, reqBody, resBody []byte) {
+  output := fmt.Sprintf("%#v", c.Request().Header)
+
+  fmt.Printf("Request Header: %v\n", output)
 	fmt.Printf("Request Body: %v\n", string(reqBody))
 	fmt.Printf("Response Body: %v\n", string(resBody))
 }
@@ -19,7 +22,7 @@ func Init() *echo.Echo {
 
 	e := echo.New()
 
-	e.Use(middleware.BodyDump(bodyDumpHandler))
+	e.Use(middleware.BodyDump(dumpHandler))
 
 	api := e.Group("/api")
 	{
