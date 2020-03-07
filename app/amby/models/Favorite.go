@@ -1,7 +1,6 @@
 package models
 
 import (
-    "log"
     "github.com/jinzhu/gorm"
     "github.com/eifandevs/amby/repo"
 )
@@ -37,22 +36,18 @@ func GetFavorite() GetFavoriteResponse {
 	return GetFavoriteResponse{BaseResponse: BaseResponse{Result: "OK", ErrorCode: ""}, Items: items}
 }
 
-func PostFavorite(request PostFavoriteRequest) BaseResponse {
-    log.Println("post favorite: ", request.Items)
-
+func PostFavorite(userToken string, request PostFavoriteRequest) BaseResponse {
     db := repo.Connect("development")
     defer db.Close()
 
     for _, item := range request.Items {
-        db.Create(&Favorite{Token: "1111", Title: item.Title, Url: item.Url})
+        db.Create(&Favorite{Token: userToken, Title: item.Title, Url: item.Url})
     }
 
 	return BaseResponse{Result: "OK", ErrorCode: ""}
 }
 
 func DeleteFavorite(request DeleteFavoriteRequest) BaseResponse {
-    log.Println("delete favorite: ", request.Items)
-
     db := repo.Connect("development")
     defer db.Close()
 

@@ -21,7 +21,12 @@ func PostHandler() echo.HandlerFunc {
         return err
     }
 
-    response := models.PostFavorite(*post)
+    userToken := c.Request().Header.Get("User-Token")
+    if userToken == "" {
+      return c.JSON(http.StatusOK, models.BaseResponse{Result: "NG", ErrorCode: ""})
+    }
+
+    response := models.PostFavorite(userToken, *post)
     return c.JSON(http.StatusOK, response)
   }
 }
