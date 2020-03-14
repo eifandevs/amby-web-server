@@ -8,7 +8,13 @@ import(
 
 func GetHandler() echo.HandlerFunc {
   return func(c echo.Context) error {
-    favorites := models.GetFavorite()
+    userToken := c.Request().Header.Get("User-Token")
+    if userToken == "" {
+      return c.JSON(http.StatusOK, models.GetFavoriteResponse{BaseResponse: models.BaseResponse{Result: "NG", ErrorCode: ""}, Items: nil})
+    }
+
+    favorites := models.GetFavorite(userToken)
+
     return c.JSON(http.StatusOK, favorites)
   }
 }

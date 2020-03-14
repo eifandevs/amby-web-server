@@ -30,10 +30,17 @@ type DeleteFavoriteRequest struct {
     Items  []FavoriteItem `json:"data"`
 }
 
-func GetFavorite() GetFavoriteResponse {
-    items := []FavoriteItem{FavoriteItem{Title: "1", Url: "1"}, FavoriteItem{Title: "2", Url: "2"}}
-    
-	return GetFavoriteResponse{BaseResponse: BaseResponse{Result: "OK", ErrorCode: ""}, Items: items}
+func GetFavorite(userToken string) GetFavoriteResponse {
+    db := repo.Connect("development")
+    defer db.Close()
+
+    favorites := []Favorite{}
+    if err := db.Find(&favorites).Error; err != nil {
+        return GetFavoriteResponse{BaseResponse: BaseResponse{Result: "NG", ErrorCode: ""}, Items: nil}
+    }
+
+    // TODO: []Favorite -> []FavoriteItem
+	return GetFavoriteResponse{BaseResponse: BaseResponse{Result: "OK", ErrorCode: ""}, Items: favorites}
 }
 
 func PostFavorite(userToken string, request PostFavoriteRequest) BaseResponse {
@@ -41,7 +48,9 @@ func PostFavorite(userToken string, request PostFavoriteRequest) BaseResponse {
     defer db.Close()
 
     for _, item := range request.Items {
-        db.Create(&Favorite{Token: userToken, Title: item.Title, Url: item.Url})
+        if err := db.Create(&Favorite{Token: userToken, Title: item.Title, Url: item.Url}).Error; err != nil {
+            return BaseResponse{Result: "NG", ErrorCode: ""}
+        }
     }
 
 	return BaseResponse{Result: "OK", ErrorCode: ""}
@@ -52,7 +61,9 @@ func DeleteFavorite(request DeleteFavoriteRequest) BaseResponse {
     defer db.Close()
 
     for _, item := range request.Items {
-        db.Unscoped().Delete(&Favorite{Token: "1111", Title: item.Title, Url: item.Url})
+        if err := db.Unscoped().Delete(&Favorite{Token: "1111", Title: item.Title, Url: item.Url}).Error; err != nil {
+            return BaseResponse{Result: "NG", ErrorCode: ""}
+        }
     }
 
 	return BaseResponse{Result: "OK", ErrorCode: ""}
