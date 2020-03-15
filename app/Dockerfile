@@ -9,7 +9,9 @@ RUN apt-get update \
  && go get -u github.com/jinzhu/gorm \
  && go get -u github.com/jinzhu/gorm/dialects/mysql \
  && go get -u github.com/BurntSushi/toml \
- && go get -u github.com/abbot/go-http-auth
+ && go get -u github.com/abbot/go-http-auth \
+ && go get -u github.com/thoas/go-funk
+
 
 
 WORKDIR /go/src/github.com/eifandevs/amby

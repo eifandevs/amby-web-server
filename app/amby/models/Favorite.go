@@ -3,6 +3,7 @@ package models
 import (
     "github.com/jinzhu/gorm"
     "github.com/eifandevs/amby/repo"
+    "github.com/thoas/go-funk"
 )
 
 type FavoriteItem struct {
@@ -39,8 +40,16 @@ func GetFavorite(userToken string) GetFavoriteResponse {
         return GetFavoriteResponse{BaseResponse: BaseResponse{Result: "NG", ErrorCode: ""}, Items: nil}
     }
 
-    // TODO: []Favorite -> []FavoriteItem
-	return GetFavoriteResponse{BaseResponse: BaseResponse{Result: "OK", ErrorCode: ""}, Items: favorites}
+    // []Favorite -> []FavoriteItem
+    items := funk.Map(favorites, func(favorite Favorite) FavoriteItem {
+        return FavoriteItem{Title: favorite.Title, Url: favorite.Url}
+    })
+    
+    if castedItems, ok := items.([]FavoriteItem); ok {
+        return GetFavoriteResponse{BaseResponse: BaseResponse{Result: "OK", ErrorCode: ""}, Items: castedItems}
+    } else {
+        panic("cannot cast favorite item.")
+    }
 }
 
 func PostFavorite(userToken string, request PostFavoriteRequest) BaseResponse {
