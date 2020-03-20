@@ -45,7 +45,12 @@ func DeleteHandler() echo.HandlerFunc {
         return err
     }
 
-    response := models.DeleteFavorite(*delete)
+    userToken := c.Request().Header.Get("User-Token")
+    if userToken == "" {
+      return c.JSON(http.StatusOK, models.BaseResponse{Result: "NG", ErrorCode: ""})
+    }
+
+    response := models.DeleteFavorite(userToken, *delete)
     return c.JSON(http.StatusOK, response)
   }
 }

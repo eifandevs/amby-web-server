@@ -36,7 +36,7 @@ func GetFavorite(userToken string) GetFavoriteResponse {
     defer db.Close()
 
     favorites := []Favorite{}
-    if err := db.Find(&favorites).Error; err != nil {
+    if err := db.Where("token = ?", userToken).Find(&favorites).Error; err != nil {
         return GetFavoriteResponse{BaseResponse: BaseResponse{Result: "NG", ErrorCode: ""}, Items: nil}
     }
 
@@ -65,12 +65,12 @@ func PostFavorite(userToken string, request PostFavoriteRequest) BaseResponse {
 	return BaseResponse{Result: "OK", ErrorCode: ""}
 }
 
-func DeleteFavorite(request DeleteFavoriteRequest) BaseResponse {
+func DeleteFavorite(userToken string, request DeleteFavoriteRequest) BaseResponse {
     db := repo.Connect("development")
     defer db.Close()
 
     for _, item := range request.Items {
-        if err := db.Unscoped().Delete(&Favorite{Token: "1111", Title: item.Title, Url: item.Url}).Error; err != nil {
+        if err := db.Unscoped().Delete(&Favorite{Token: userToken, Title: item.Title, Url: item.Url}).Error; err != nil {
             return BaseResponse{Result: "NG", ErrorCode: ""}
         }
     }
