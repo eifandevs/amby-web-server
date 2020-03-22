@@ -1,19 +1,19 @@
 package models
 
 import (
-    "github.com/jinzhu/gorm"
     "github.com/eifandevs/amby/repo"
     "github.com/thoas/go-funk"
 )
 
 type FavoriteItem struct {
+    ID int `json:"id"`
     Title string `json:"title"`
     Url string `json:"url"`
 }
 
 type Favorite struct {
-    gorm.Model
-    Token string
+    ID int `gorm:"type:int unsigned;not null;primary_key;auto_increment:false"`
+    Token string `gorm:"type:varchar(255);not null;primary_key"`
     Title string
     Url string
 }
@@ -40,9 +40,8 @@ func GetFavorite(userToken string) GetFavoriteResponse {
         return GetFavoriteResponse{BaseResponse: BaseResponse{Result: "NG", ErrorCode: ""}, Items: nil}
     }
 
-    // []Favorite -> []FavoriteItem
     items := funk.Map(favorites, func(favorite Favorite) FavoriteItem {
-        return FavoriteItem{Title: favorite.Title, Url: favorite.Url}
+        return FavoriteItem{ID: favorite.ID, Title: favorite.Title, Url: favorite.Url}
     })
     
     if castedItems, ok := items.([]FavoriteItem); ok {
@@ -57,7 +56,7 @@ func PostFavorite(userToken string, request PostFavoriteRequest) BaseResponse {
     defer db.Close()
 
     for _, item := range request.Items {
-        if err := db.Create(&Favorite{Token: userToken, Title: item.Title, Url: item.Url}).Error; err != nil {
+        if err := db.Create(&Favorite{ID: item.ID, Token: userToken, Title: item.Title, Url: item.Url}).Error; err != nil {
             return BaseResponse{Result: "NG", ErrorCode: ""}
         }
     }
@@ -70,7 +69,11 @@ func DeleteFavorite(userToken string, request DeleteFavoriteRequest) BaseRespons
     defer db.Close()
 
     for _, item := range request.Items {
-        if err := db.Unscoped().Delete(&Favorite{Token: userToken, Title: item.Title, Url: item.Url}).Error; err != nil {
+        deletingRecord := Favorite{}
+        deletingRecord.ID = item.ID
+        deletingRecord.Token = userToken
+        db.First(&deletingRecord)
+        if err := db.Unscoped().Delete(&deletingRecord).Error; err != nil {
             return BaseResponse{Result: "NG", ErrorCode: ""}
         }
     }
