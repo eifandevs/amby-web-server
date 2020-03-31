@@ -7,23 +7,23 @@ import (
 	"github.com/labstack/echo"
 )
 
-func GetFavoriteHandler() echo.HandlerFunc {
+func GetMemoHandler() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		userToken := c.Request().Header.Get("User-Token")
 		if userToken == "" {
-			return c.JSON(http.StatusOK, models.GetFavoriteResponse{BaseResponse: models.BaseResponse{Result: "NG", ErrorCode: ""}, Items: nil})
+			return c.JSON(http.StatusOK, models.GetMemoResponse{BaseResponse: models.BaseResponse{Result: "NG", ErrorCode: ""}, Items: nil})
 		}
 
-		favorites := models.GetFavorite(userToken)
+		memos := models.GetMemo(userToken)
 
-		return c.JSON(http.StatusOK, favorites)
+		return c.JSON(http.StatusOK, memos)
 	}
 }
 
-func PostFavoriteHandler() echo.HandlerFunc {
+func PostMemoHandler() echo.HandlerFunc {
 	return func(c echo.Context) error {
 
-		post := new(models.PostFavoriteRequest)
+		post := new(models.PostMemoRequest)
 		if err := c.Bind(post); err != nil {
 			return err
 		}
@@ -33,15 +33,15 @@ func PostFavoriteHandler() echo.HandlerFunc {
 			return c.JSON(http.StatusOK, models.BaseResponse{Result: "NG", ErrorCode: ""})
 		}
 
-		response := models.PostFavorite(userToken, *post)
+		response := models.PostMemo(userToken, *post)
 		return c.JSON(http.StatusOK, response)
 	}
 }
 
-func DeleteFavoriteHandler() echo.HandlerFunc {
+func DeleteMemoHandler() echo.HandlerFunc {
 	return func(c echo.Context) error {
 
-		delete := new(models.DeleteFavoriteRequest)
+		delete := new(models.DeleteMemoRequest)
 		if err := c.Bind(delete); err != nil {
 			return err
 		}
@@ -51,7 +51,7 @@ func DeleteFavoriteHandler() echo.HandlerFunc {
 			return c.JSON(http.StatusOK, models.BaseResponse{Result: "NG", ErrorCode: ""})
 		}
 
-		response := models.DeleteFavorite(userToken, *delete)
+		response := models.DeleteMemo(userToken, *delete)
 		return c.JSON(http.StatusOK, response)
 	}
 }

@@ -1,7 +1,7 @@
 package router
 
 import (
-  "fmt"
+	"fmt"
 
 	"github.com/eifandevs/amby/controllers"
 	"github.com/eifandevs/amby/interceptor"
@@ -11,9 +11,9 @@ import (
 )
 
 func dumpHandler(c echo.Context, reqBody, resBody []byte) {
-  output := fmt.Sprintf("%#v", c.Request().Header)
+	output := fmt.Sprintf("%#v", c.Request().Header)
 
-  fmt.Printf("Request Header: %v\n", output)
+	fmt.Printf("Request Header: %v\n", output)
 	fmt.Printf("Request Body: %v\n", string(reqBody))
 	fmt.Printf("Response Body: %v\n", string(resBody))
 }
@@ -27,9 +27,12 @@ func Init() *echo.Echo {
 	api := e.Group("/api")
 	{
 		api.GET("/accesstoken", controllers.GetAccessToken(), interceptor.BasicAuth())
-		api.GET("/favorite", controllers.GetHandler())
-    api.POST("/favorite", controllers.PostHandler())
-    api.DELETE("/favorite", controllers.DeleteHandler())
+		api.GET("/favorite", controllers.GetFavoriteHandler())
+		api.POST("/favorite", controllers.PostFavoriteHandler())
+		api.DELETE("/favorite", controllers.DeleteFavoriteHandler())
+		api.GET("/memo", controllers.GetMemoHandler())
+		api.POST("/memo", controllers.PostMemoHandler())
+		api.DELETE("/memo", controllers.DeleteMemoHandler())
 	}
 
 	mockApi := e.Group("/mock")
