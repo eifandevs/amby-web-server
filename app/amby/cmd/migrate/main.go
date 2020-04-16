@@ -11,7 +11,6 @@ func main() {
 
   // create accesstoken table
   db.AutoMigrate(&models.AccessToken{})
-  db.Create(&models.AccessToken{Token: "token", Expire: "2019-10-10T13:50:40+09:00"})
 
   // create user table
   db.AutoMigrate(&models.User{})

@@ -5,7 +5,7 @@ import(
 )
 
 type AppID struct {
-	gorm.Model
+  gorm.Model
   AppID int
   Desc string
 }
