@@ -13,8 +13,19 @@ type AccessTokenItem struct {
 
 type AccessToken struct {
     gorm.Model
+    VendorToken string
     Token string
     Expire string
+}
+
+type UserInfo struct {
+    Name string
+    Mail string
+    VendorToken string
+}
+
+type GetAccessTokenRequest struct {
+    Item  UserInfo `json:"data"`
 }
 
 type GetAccessTokenResponse struct {
@@ -26,18 +37,19 @@ func GetAccessToken() GetAccessTokenResponse {
     db := repo.Connect("development")
     defer db.Close()
 
-    accessTokens := []AccessToken{}
-    if err := db.Find(&accessTokens).Error; err != nil {
-        return GetAccessTokenResponse{BaseResponse: BaseResponse{Result: "NG", ErrorCode: ""}, Items: nil}
-    }
+    //　ユーザー情報登録
+    // accessTokens := []AccessToken{}
+    // if err := db.Find(&accessTokens).Error; err != nil {
+    //     return GetAccessTokenResponse{BaseResponse: BaseResponse{Result: "NG", ErrorCode: ""}, Items: nil}
+    // }
 
-    items := funk.Map(accessTokens, func(accessToken AccessToken) AccessTokenItem {
-        return AccessTokenItem{Token: accessToken.Token, Expire: accessToken.Expire}
-    })
+    // items := funk.Map(accessTokens, func(accessToken AccessToken) AccessTokenItem {
+    //     return AccessTokenItem{Token: accessToken.Token, Expire: accessToken.Expire}
+    // })
     
-    if castedItems, ok := items.([]AccessTokenItem); ok {
-        return GetAccessTokenResponse{BaseResponse: BaseResponse{Result: "OK", ErrorCode: ""}, Items: castedItems}
-    } else {
-        panic("cannot cast accessToken item.")
-    }
+    // if castedItems, ok := items.([]AccessTokenItem); ok {
+    //     return GetAccessTokenResponse{BaseResponse: BaseResponse{Result: "OK", ErrorCode: ""}, Items: castedItems}
+    // } else {
+    //     panic("cannot cast accessToken item.")
+    // }
 }

@@ -9,5 +9,5 @@ type User struct {
     AppID int
     Name string
     Mail string
-    Token string
+    VendorToken string
 }
