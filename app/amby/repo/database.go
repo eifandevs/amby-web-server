@@ -1,7 +1,6 @@
 package repo
 
 import (
-  "log"
   "github.com/go-sql-driver/mysql"
   "github.com/jinzhu/gorm"
 )
@@ -16,8 +15,6 @@ func Connect(env string) *gorm.DB {
     AllowNativePasswords: true,
     ParseTime:            true,
   }
-
-  log.Println(dbConf.User)
 
   dsn := mysqlConf.FormatDSN()
   db, err := gorm.Open("mysql", dsn)

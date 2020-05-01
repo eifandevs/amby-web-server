@@ -2,26 +2,24 @@ package models
 
 import(
     "github.com/eifandevs/amby/repo"
-    "github.com/thoas/go-funk"
+    // "github.com/thoas/go-funk"
 	"github.com/jinzhu/gorm"
 )
 
 type AccessTokenItem struct {
-    Token string
-    Expire string
+    AccessToken string `json:"access_token"`
 }
 
 type AccessToken struct {
     gorm.Model
     VendorToken string
-    Token string
+    AccessToken string
     Expire string
 }
 
 type UserInfo struct {
-    Name string
-    Mail string
-    VendorToken string
+    Mail string `json:"mail"`
+    VendorToken string `json:"vendor_token"`
 }
 
 type GetAccessTokenRequest struct {
@@ -30,12 +28,14 @@ type GetAccessTokenRequest struct {
 
 type GetAccessTokenResponse struct {
     BaseResponse
-    Items  []AccessTokenItem `json:"data"`
+    Item  AccessTokenItem `json:"data"`
 }
 
 func GetAccessToken() GetAccessTokenResponse {
     db := repo.Connect("development")
     defer db.Close()
+
+    return GetAccessTokenResponse{BaseResponse: BaseResponse{Result: "OK", ErrorCode: ""}, Item: AccessTokenItem{AccessToken: "aaaaaaa"}}
 
     //　ユーザー情報登録
     // accessTokens := []AccessToken{}

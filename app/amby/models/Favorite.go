@@ -31,12 +31,12 @@ type DeleteFavoriteRequest struct {
     Items  []FavoriteItem `json:"data"`
 }
 
-func GetFavorite(userToken string) GetFavoriteResponse {
+func GetFavorite(accessToken string) GetFavoriteResponse {
     db := repo.Connect("development")
     defer db.Close()
 
     favorites := []Favorite{}
-    if err := db.Where("token = ?", userToken).Find(&favorites).Error; err != nil {
+    if err := db.Where("token = ?", accessToken).Find(&favorites).Error; err != nil {
         return GetFavoriteResponse{BaseResponse: BaseResponse{Result: "NG", ErrorCode: ""}, Items: nil}
     }
 
@@ -51,12 +51,12 @@ func GetFavorite(userToken string) GetFavoriteResponse {
     }
 }
 
-func PostFavorite(userToken string, request PostFavoriteRequest) BaseResponse {
+func PostFavorite(accessToken string, request PostFavoriteRequest) BaseResponse {
     db := repo.Connect("development")
     defer db.Close()
 
     for _, item := range request.Items {
-        if err := db.Create(&Favorite{ID: item.ID, Token: userToken, Title: item.Title, Url: item.Url}).Error; err != nil {
+        if err := db.Create(&Favorite{ID: item.ID, Token: accessToken, Title: item.Title, Url: item.Url}).Error; err != nil {
             return BaseResponse{Result: "NG", ErrorCode: ""}
         }
     }
@@ -64,14 +64,14 @@ func PostFavorite(userToken string, request PostFavoriteRequest) BaseResponse {
 	return BaseResponse{Result: "OK", ErrorCode: ""}
 }
 
-func DeleteFavorite(userToken string, request DeleteFavoriteRequest) BaseResponse {
+func DeleteFavorite(accessToken string, request DeleteFavoriteRequest) BaseResponse {
     db := repo.Connect("development")
     defer db.Close()
 
     for _, item := range request.Items {
         deletingRecord := Favorite{}
         deletingRecord.ID = item.ID
-        deletingRecord.Token = userToken
+        deletingRecord.Token = accessToken
         db.First(&deletingRecord)
         if err := db.Unscoped().Delete(&deletingRecord).Error; err != nil {
             return BaseResponse{Result: "NG", ErrorCode: ""}

@@ -9,12 +9,12 @@ import (
 
 func GetMemoHandler() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		userToken := c.Request().Header.Get("User-Token")
-		if userToken == "" {
+		accessToken := c.Request().Header.Get("User-Token")
+		if accessToken == "" {
 			return c.JSON(http.StatusOK, models.GetMemoResponse{BaseResponse: models.BaseResponse{Result: "NG", ErrorCode: ""}, Items: nil})
 		}
 
-		memos := models.GetMemo(userToken)
+		memos := models.GetMemo(accessToken)
 
 		return c.JSON(http.StatusOK, memos)
 	}
@@ -28,12 +28,12 @@ func PostMemoHandler() echo.HandlerFunc {
 			return err
 		}
 
-		userToken := c.Request().Header.Get("User-Token")
-		if userToken == "" {
+		accessToken := c.Request().Header.Get("User-Token")
+		if accessToken == "" {
 			return c.JSON(http.StatusOK, models.BaseResponse{Result: "NG", ErrorCode: ""})
 		}
 
-		response := models.PostMemo(userToken, *post)
+		response := models.PostMemo(accessToken, *post)
 		return c.JSON(http.StatusOK, response)
 	}
 }
@@ -46,12 +46,12 @@ func DeleteMemoHandler() echo.HandlerFunc {
 			return err
 		}
 
-		userToken := c.Request().Header.Get("User-Token")
-		if userToken == "" {
+		accessToken := c.Request().Header.Get("User-Token")
+		if accessToken == "" {
 			return c.JSON(http.StatusOK, models.BaseResponse{Result: "NG", ErrorCode: ""})
 		}
 
-		response := models.DeleteMemo(userToken, *delete)
+		response := models.DeleteMemo(accessToken, *delete)
 		return c.JSON(http.StatusOK, response)
 	}
 }

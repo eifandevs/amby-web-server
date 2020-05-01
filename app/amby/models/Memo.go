@@ -31,12 +31,12 @@ type DeleteMemoRequest struct {
 	Items []MemoItem `json:"data"`
 }
 
-func GetMemo(userToken string) GetMemoResponse {
+func GetMemo(accessToken string) GetMemoResponse {
 	db := repo.Connect("development")
 	defer db.Close()
 
 	memos := []Memo{}
-	if err := db.Where("token = ?", userToken).Find(&memos).Error; err != nil {
+	if err := db.Where("token = ?", accessToken).Find(&memos).Error; err != nil {
 		return GetMemoResponse{BaseResponse: BaseResponse{Result: "NG", ErrorCode: ""}, Items: nil}
 	}
 
@@ -51,12 +51,12 @@ func GetMemo(userToken string) GetMemoResponse {
 	}
 }
 
-func PostMemo(userToken string, request PostMemoRequest) BaseResponse {
+func PostMemo(accessToken string, request PostMemoRequest) BaseResponse {
 	db := repo.Connect("development")
 	defer db.Close()
 
 	for _, item := range request.Items {
-		if err := db.Create(&Memo{ID: item.ID, Token: userToken, Title: item.Title, Content: item.Content}).Error; err != nil {
+		if err := db.Create(&Memo{ID: item.ID, Token: accessToken, Title: item.Title, Content: item.Content}).Error; err != nil {
 			return BaseResponse{Result: "NG", ErrorCode: ""}
 		}
 	}
@@ -64,14 +64,14 @@ func PostMemo(userToken string, request PostMemoRequest) BaseResponse {
 	return BaseResponse{Result: "OK", ErrorCode: ""}
 }
 
-func DeleteMemo(userToken string, request DeleteMemoRequest) BaseResponse {
+func DeleteMemo(accessToken string, request DeleteMemoRequest) BaseResponse {
 	db := repo.Connect("development")
 	defer db.Close()
 
 	for _, item := range request.Items {
 		deletingRecord := Memo{}
 		deletingRecord.ID = item.ID
-		deletingRecord.Token = userToken
+		deletingRecord.Token = accessToken
 		db.First(&deletingRecord)
 		if err := db.Unscoped().Delete(&deletingRecord).Error; err != nil {
 			return BaseResponse{Result: "NG", ErrorCode: ""}

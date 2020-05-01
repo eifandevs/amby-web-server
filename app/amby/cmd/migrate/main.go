@@ -14,11 +14,6 @@ func main() {
 
   // create user table
   db.AutoMigrate(&models.User{})
-  db.Create(&models.User{AppID: 1, Name: "name", Mail: "mail", Token: "token"})
-
-  // create user table
-  db.AutoMigrate(&models.AppID{})
-  db.Create(&models.AppID{AppID: 1, Desc: "desc"})
 
   // create favorite table
   db.AutoMigrate(&models.Favorite{})
