@@ -5,7 +5,7 @@ import (
     "github.com/thoas/go-funk"
 )
 
-type FavoriteItem struct {
+type FavoriteInfo struct {
     ID int `json:"id"`
     Title string `json:"title"`
     Url string `json:"url"`
@@ -20,15 +20,15 @@ type Favorite struct {
 
 type GetFavoriteResponse struct {
     BaseResponse
-    Items  []FavoriteItem `json:"data"`
+    Items  []FavoriteInfo `json:"data"`
 }
 
 type PostFavoriteRequest struct {
-    Items  []FavoriteItem `json:"data"`
+    Items  []FavoriteInfo `json:"data"`
 }
 
 type DeleteFavoriteRequest struct {
-    Items  []FavoriteItem `json:"data"`
+    Items  []FavoriteInfo `json:"data"`
 }
 
 func GetFavorite(accessToken string) GetFavoriteResponse {
@@ -40,11 +40,11 @@ func GetFavorite(accessToken string) GetFavoriteResponse {
         return GetFavoriteResponse{BaseResponse: BaseResponse{Result: "NG", ErrorCode: ""}, Items: nil}
     }
 
-    items := funk.Map(favorites, func(favorite Favorite) FavoriteItem {
-        return FavoriteItem{ID: favorite.ID, Title: favorite.Title, Url: favorite.Url}
+    items := funk.Map(favorites, func(favorite Favorite) FavoriteInfo {
+        return FavoriteInfo{ID: favorite.ID, Title: favorite.Title, Url: favorite.Url}
     })
     
-    if castedItems, ok := items.([]FavoriteItem); ok {
+    if castedItems, ok := items.([]FavoriteInfo); ok {
         return GetFavoriteResponse{BaseResponse: BaseResponse{Result: "OK", ErrorCode: ""}, Items: castedItems}
     } else {
         panic("cannot cast favorite item.")

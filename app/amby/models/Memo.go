@@ -5,7 +5,7 @@ import (
 	"github.com/thoas/go-funk"
 )
 
-type MemoItem struct {
+type MemoInfo struct {
 	ID      int    `json:"id"`
 	Title   string `json:"title"`
 	Content string `json:"content"`
@@ -20,15 +20,15 @@ type Memo struct {
 
 type GetMemoResponse struct {
 	BaseResponse
-	Items []MemoItem `json:"data"`
+	Items []MemoInfo `json:"data"`
 }
 
 type PostMemoRequest struct {
-	Items []MemoItem `json:"data"`
+	Items []MemoInfo `json:"data"`
 }
 
 type DeleteMemoRequest struct {
-	Items []MemoItem `json:"data"`
+	Items []MemoInfo `json:"data"`
 }
 
 func GetMemo(accessToken string) GetMemoResponse {
@@ -40,11 +40,11 @@ func GetMemo(accessToken string) GetMemoResponse {
 		return GetMemoResponse{BaseResponse: BaseResponse{Result: "NG", ErrorCode: ""}, Items: nil}
 	}
 
-	items := funk.Map(memos, func(memo Memo) MemoItem {
-		return MemoItem{ID: memo.ID, Title: memo.Title, Content: memo.Content}
+	items := funk.Map(memos, func(memo Memo) MemoInfo {
+		return MemoInfo{ID: memo.ID, Title: memo.Title, Content: memo.Content}
 	})
 
-	if castedItems, ok := items.([]MemoItem); ok {
+	if castedItems, ok := items.([]MemoInfo); ok {
 		return GetMemoResponse{BaseResponse: BaseResponse{Result: "OK", ErrorCode: ""}, Items: castedItems}
 	} else {
 		panic("cannot cast memo item.")

@@ -6,9 +6,9 @@ import(
   "github.com/eifandevs/amby/models"
 )
 
-func GetAccessTokenHandler() echo.HandlerFunc {
+func LoginHandler() echo.HandlerFunc {
   return func(c echo.Context) error {
-    post := new(models.GetAccessTokenRequest)
+    post := new(models.PostUserRequest)
 		if err := c.Bind(post); err != nil {
       return err
     }
@@ -18,8 +18,6 @@ func GetAccessTokenHandler() echo.HandlerFunc {
       return err
     }
 
-    // TODO: アクセストークンの発行
-    accesstoken := models.GetAccessToken()
-    return c.JSON(http.StatusOK, accesstoken)
+    return c.JSON(http.StatusOK, "accesstoken")
   }
 }
