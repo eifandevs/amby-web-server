@@ -9,9 +9,6 @@ func main() {
   db := repo.Connect("development")
   defer db.Close()
 
-  // create accesstoken table
-  db.AutoMigrate(&models.AccessToken{})
-
   // create user table
   db.AutoMigrate(&models.User{})
 

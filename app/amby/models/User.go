@@ -2,13 +2,14 @@ package models
 
 import(
     "github.com/eifandevs/amby/repo"
-    "github.com/jinzhu/gorm"
+    // "github.com/jinzhu/gorm"
     "log"
+    "math/rand"
+    "time"
 )
 
 type UserInfo struct {
     Mail string `json:"mail"`
-    VendorToken string `json:"vendor_token"`
 }
 
 type UserToken struct {
@@ -16,9 +17,7 @@ type UserToken struct {
 }
 
 type User struct {
-	gorm.Model
     Mail string `gorm:"primary_key"`
-    VendorToken string
     AccessToken string
     Expire string
 }
@@ -31,19 +30,41 @@ type PostUserResponse struct {
     Item  UserToken `json:"data"`
 }
 
-func CreateUser(userinfo UserInfo) error {
+func CreateUser(userinfo UserInfo) (User, error) {
     db := repo.Connect("development")
     defer db.Close()
 
-    users := []User{}
-    if err := db.Where("mail = ?", userinfo.Mail).Find(&users).Error; err != nil {
-        return err
+    user := User{}
+    if err := db.Where("mail = ?", userinfo.Mail).First(&user).Error; err != nil {
+        return User{}, err
     }
 
-    if len(users) == 0 {
-        return db.Create(&User{Mail: userinfo.Mail, VendorToken: userinfo.VendorToken}).Error
+    if user.AccessToken != "" {
+        accessToken := createToken(20)
+        newUser := User{Mail: userinfo.Mail, AccessToken: accessToken}
+        if err := db.Create(&newUser).Error; err != nil {
+            return User{}, err
+        }
+        return newUser, nil
     } else {
         log.Println("already exist.")
-        return nil
+        return user, nil
     }
+}
+
+func createToken(n int) string {
+	var letter = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = letter[rand.Intn(len(letter))]
+	}
+	return string(b)
+}
+
+func createExpireDate() string {
+  jst, _ := time.LoadLocation("Asia/Tokyo")
+  now := time.Now()
+  // 現在+90日
+  return time.Date(now.Year(), now.Month(), now.Day(), 23, 59, 59, 0, jst).Add(24 * time.Hour * 90).String()
 }

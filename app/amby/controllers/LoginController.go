@@ -14,10 +14,11 @@ func LoginHandler() echo.HandlerFunc {
     }
     
     // ユーザー情報の登録
-    if err := models.CreateUser((*post).Item); err != nil {
+    user, err := models.CreateUser((*post).Item)
+    if err != nil {
       return err
     }
 
-    return c.JSON(http.StatusOK, "accesstoken")
+    return c.JSON(http.StatusOK, user)
   }
 }
