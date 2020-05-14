@@ -18,8 +18,8 @@ type UserToken struct {
 
 type User struct {
     Mail string `gorm:"primary_key"`
-    AccessToken string
-    Expire string
+    AccessToken string `gorm:"unique"`
+    AccessTokenExpire string
 }
 
 type PostUserRequest struct {
@@ -34,25 +34,26 @@ func CreateUser(userinfo UserInfo) (User, error) {
     db := repo.Connect("development")
     defer db.Close()
 
-    user := User{}
-    if err := db.Where("mail = ?", userinfo.Mail).First(&user).Error; err != nil {
+    users := []User{}
+    if err := db.Where("mail = ?", userinfo.Mail).Find(&users).Error; err != nil {
         return User{}, err
     }
 
-    if user.AccessToken != "" {
-        accessToken := createToken(20)
-        newUser := User{Mail: userinfo.Mail, AccessToken: accessToken}
+    if len(users) == 0 {
+        accessToken := createToken()
+        newUser := User{Mail: userinfo.Mail, AccessToken: accessToken, AccessTokenExpire: createExpireDate()}
         if err := db.Create(&newUser).Error; err != nil {
             return User{}, err
         }
         return newUser, nil
     } else {
         log.Println("already exist.")
-        return user, nil
+        return users[0], nil
     }
 }
 
-func createToken(n int) string {
+func createToken() string {
+    n := 40
 	var letter = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 
 	b := make([]rune, n)
