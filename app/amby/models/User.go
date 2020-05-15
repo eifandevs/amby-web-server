@@ -2,7 +2,7 @@ package models
 
 import(
     "github.com/eifandevs/amby/repo"
-    // "github.com/jinzhu/gorm"
+    "github.com/jinzhu/gorm"
     "log"
     "math/rand"
     "time"
@@ -17,6 +17,7 @@ type UserToken struct {
 }
 
 type User struct {
+    gorm.Model
     Mail string `gorm:"primary_key"`
     AccessToken string `gorm:"unique"`
     AccessTokenExpire string
@@ -28,6 +29,18 @@ type PostUserRequest struct {
 
 type PostUserResponse struct {
     Item  UserToken `json:"data"`
+}
+
+func GetUser(accessToken string) (User, error) {
+    db := repo.Connect("development")
+    defer db.Close()
+
+    user := User{}
+    if err := db.Where("access_token = ?", accessToken).First(&user).Error; err != nil {
+        return User{}, err
+    }
+
+    return user, nil
 }
 
 func CreateUser(userinfo UserInfo) (User, error) {
