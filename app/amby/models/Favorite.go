@@ -7,14 +7,14 @@ import (
 )
 
 type FavoriteInfo struct {
-    FID int `json:"id"`
+    FID int `json:"fid"`
     Title string `json:"title"`
     Url string `json:"url"`
 }
 
 type Favorite struct {
     gorm.Model
-    FID int `gorm:"type:int unsigned;not null;primary_key;auto_increment:false"`
+    FID int `gorm:"type:int unsigned;not null;unique;primary_key;auto_increment:false"`
     UserID uint
     Title string
     Url string
@@ -38,7 +38,7 @@ func GetFavorite(userID uint) GetFavoriteResponse {
     defer db.Close()
 
     favorites := []Favorite{}
-    if err := db.Where("token = ?", userID).Find(&favorites).Error; err != nil {
+    if err := db.Where("user_id = ?", userID).Find(&favorites).Error; err != nil {
         return GetFavoriteResponse{BaseResponse: BaseResponse{Result: "NG", ErrorCode: ""}, Items: nil}
     }
 

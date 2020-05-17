@@ -9,7 +9,7 @@ import (
 
 func GetMemoHandler() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		accessToken := c.Request().Header.Get("User-Token")
+		accessToken := c.Request().Header.Get("Access-Token")
 		if accessToken == "" {
 			return c.JSON(http.StatusOK, models.GetMemoResponse{BaseResponse: models.BaseResponse{Result: "NG", ErrorCode: ""}, Items: nil})
 		}
@@ -28,7 +28,7 @@ func PostMemoHandler() echo.HandlerFunc {
 			return err
 		}
 
-		accessToken := c.Request().Header.Get("User-Token")
+		accessToken := c.Request().Header.Get("Access-Token")
 		if accessToken == "" {
 			return c.JSON(http.StatusOK, models.BaseResponse{Result: "NG", ErrorCode: ""})
 		}
@@ -46,7 +46,7 @@ func DeleteMemoHandler() echo.HandlerFunc {
 			return err
 		}
 
-		accessToken := c.Request().Header.Get("User-Token")
+		accessToken := c.Request().Header.Get("Access-Token")
 		if accessToken == "" {
 			return c.JSON(http.StatusOK, models.BaseResponse{Result: "NG", ErrorCode: ""})
 		}

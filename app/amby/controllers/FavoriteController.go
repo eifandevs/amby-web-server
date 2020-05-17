@@ -33,7 +33,7 @@ func PostFavoriteHandler() echo.HandlerFunc {
 			return err
 		}
 
-		accessToken := c.Request().Header.Get("User-Token")
+		accessToken := c.Request().Header.Get("Access-Token")
 		if accessToken == "" {
 			return c.JSON(http.StatusOK, models.BaseResponse{Result: "NG", ErrorCode: ""})
 		}
@@ -56,7 +56,7 @@ func DeleteFavoriteHandler() echo.HandlerFunc {
 			return err
 		}
 
-		accessToken := c.Request().Header.Get("User-Token")
+		accessToken := c.Request().Header.Get("Access-Token")
 		if accessToken == "" {
 			return c.JSON(http.StatusOK, models.BaseResponse{Result: "NG", ErrorCode: ""})
 		}
