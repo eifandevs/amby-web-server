@@ -1,82 +1,84 @@
 package models
 
 import (
-	"github.com/eifandevs/amby/repo"
-	"github.com/thoas/go-funk"
+    "github.com/eifandevs/amby/repo"
+    "github.com/thoas/go-funk"
+    "github.com/jinzhu/gorm"
 )
 
 type MemoInfo struct {
-	ID      int    `json:"id"`
+	FID      int    `json:"fid"`
 	Title   string `json:"title"`
 	Content string `json:"content"`
 }
 
 type Memo struct {
-	ID      int    `gorm:"type:int unsigned;not null;primary_key;auto_increment:false"`
-	Token   string `gorm:"type:varchar(255);not null;primary_key"`
-	Title   string
+    gorm.Model
+    FID int `gorm:"type:int unsigned;not null;unique;primary_key;auto_increment:false"`
+    UserID uint
+    Title string
 	Content string `gorm:"type:varchar(1000)"`
 }
 
 type GetMemoResponse struct {
-	BaseResponse
-	Items []MemoInfo `json:"data"`
+    BaseResponse
+    Data  []MemoInfo `json:"data"`
 }
 
 type PostMemoRequest struct {
-	Items []MemoInfo `json:"data"`
+    Data  []MemoInfo `json:"data"`
 }
 
 type DeleteMemoRequest struct {
-	Items []MemoInfo `json:"data"`
+    Data  []MemoInfo `json:"data"`
 }
 
-func GetMemo(accessToken string) GetMemoResponse {
-	db := repo.Connect("development")
-	defer db.Close()
+func GetMemo(userID uint) GetMemoResponse {
+    db := repo.Connect("development")
+    defer db.Close()
 
-	memos := []Memo{}
-	if err := db.Where("token = ?", accessToken).Find(&memos).Error; err != nil {
-		return GetMemoResponse{BaseResponse: BaseResponse{Result: "NG", ErrorCode: ""}, Items: nil}
-	}
+    memos := []Memo{}
+    if err := db.Where("user_id = ?", userID).Find(&memos).Error; err != nil {
+        return GetMemoResponse{BaseResponse: BaseResponse{Result: "NG", ErrorCode: ""}, Data: nil}
+    }
 
-	items := funk.Map(memos, func(memo Memo) MemoInfo {
-		return MemoInfo{ID: memo.ID, Title: memo.Title, Content: memo.Content}
-	})
-
-	if castedItems, ok := items.([]MemoInfo); ok {
-		return GetMemoResponse{BaseResponse: BaseResponse{Result: "OK", ErrorCode: ""}, Items: castedItems}
-	} else {
-		panic("cannot cast memo item.")
-	}
+    items := funk.Map(memos, func(memo Memo) MemoInfo {
+        return MemoInfo{FID: memo.FID, Title: memo.Title, Content: memo.Content}
+    })
+    
+    if castedItems, ok := items.([]MemoInfo); ok {
+        return GetMemoResponse{BaseResponse: BaseResponse{Result: "OK", ErrorCode: ""}, Data: castedItems}
+    } else {
+        panic("cannot cast memo item.")
+    }
 }
 
-func PostMemo(accessToken string, request PostMemoRequest) BaseResponse {
-	db := repo.Connect("development")
-	defer db.Close()
+func PostMemo(userID uint, request PostMemoRequest) BaseResponse {
+    db := repo.Connect("development")
+    defer db.Close()
 
-	for _, item := range request.Items {
-		if err := db.Create(&Memo{ID: item.ID, Token: accessToken, Title: item.Title, Content: item.Content}).Error; err != nil {
-			return BaseResponse{Result: "NG", ErrorCode: ""}
-		}
-	}
+    for _, item := range request.Data {
+        if err := db.Create(&Memo{FID: item.FID, UserID: userID, Title: item.Title, Content: item.Content}).Error; err != nil {
+            return BaseResponse{Result: "NG", ErrorCode: ""}
+        }
+    }
 
 	return BaseResponse{Result: "OK", ErrorCode: ""}
 }
 
-func DeleteMemo(accessToken string, request DeleteMemoRequest) BaseResponse {
-	db := repo.Connect("development")
-	defer db.Close()
+func DeleteMemo(userID uint, request DeleteMemoRequest) BaseResponse {
+    db := repo.Connect("development")
+    defer db.Close()
 
-	for _, item := range request.Items {
-		deletingRecord := Memo{}
-		deletingRecord.ID = item.ID
-		deletingRecord.Token = accessToken
-		db.First(&deletingRecord)
-		if err := db.Unscoped().Delete(&deletingRecord).Error; err != nil {
-			return BaseResponse{Result: "NG", ErrorCode: ""}
-		}
-	}
+    for _, item := range request.Data {
+        deletingRecord := Memo{}
+        deletingRecord.FID = item.FID
+        deletingRecord.UserID = userID
+        db.First(&deletingRecord)
+        if err := db.Unscoped().Delete(&deletingRecord).Error; err != nil {
+            return BaseResponse{Result: "NG", ErrorCode: ""}
+        }
+    }
 
 	return BaseResponse{Result: "OK", ErrorCode: ""}
 }

@@ -11,12 +11,12 @@ func GetFavoriteHandler() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		accessToken := c.Request().Header.Get("Access-Token")
 		if accessToken == "" {
-			return c.JSON(http.StatusOK, models.GetFavoriteResponse{BaseResponse: models.BaseResponse{Result: "NG", ErrorCode: ""}, Items: nil})
+			return c.JSON(http.StatusOK, models.GetFavoriteResponse{BaseResponse: models.BaseResponse{Result: "NG", ErrorCode: ""}, Data: nil})
 		}
 
 		user, err := models.GetUser(accessToken)
 		if err != nil {
-			return c.JSON(http.StatusOK, models.GetFavoriteResponse{BaseResponse: models.BaseResponse{Result: "NG", ErrorCode: ""}, Items: nil})
+			return c.JSON(http.StatusOK, models.GetFavoriteResponse{BaseResponse: models.BaseResponse{Result: "NG", ErrorCode: ""}, Data: nil})
 		}
 
 		favorites := models.GetFavorite(user.ID)
@@ -40,7 +40,7 @@ func PostFavoriteHandler() echo.HandlerFunc {
 
 		user, err := models.GetUser(accessToken)
 		if err != nil {
-			return c.JSON(http.StatusOK, models.GetFavoriteResponse{BaseResponse: models.BaseResponse{Result: "NG", ErrorCode: ""}, Items: nil})
+			return c.JSON(http.StatusOK, models.GetFavoriteResponse{BaseResponse: models.BaseResponse{Result: "NG", ErrorCode: ""}, Data: nil})
 		}
 
 		response := models.PostFavorite(user.ID, *post)
@@ -63,7 +63,7 @@ func DeleteFavoriteHandler() echo.HandlerFunc {
 
 		user, err := models.GetUser(accessToken)
 		if err != nil {
-			return c.JSON(http.StatusOK, models.GetFavoriteResponse{BaseResponse: models.BaseResponse{Result: "NG", ErrorCode: ""}, Items: nil})
+			return c.JSON(http.StatusOK, models.GetFavoriteResponse{BaseResponse: models.BaseResponse{Result: "NG", ErrorCode: ""}, Data: nil})
 		}
 
 		response := models.DeleteFavorite(user.ID, *delete)

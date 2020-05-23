@@ -11,10 +11,15 @@ func GetMemoHandler() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		accessToken := c.Request().Header.Get("Access-Token")
 		if accessToken == "" {
-			return c.JSON(http.StatusOK, models.GetMemoResponse{BaseResponse: models.BaseResponse{Result: "NG", ErrorCode: ""}, Items: nil})
+			return c.JSON(http.StatusOK, models.GetMemoResponse{BaseResponse: models.BaseResponse{Result: "NG", ErrorCode: ""}, Data: nil})
 		}
 
-		memos := models.GetMemo(accessToken)
+		user, err := models.GetUser(accessToken)
+		if err != nil {
+			return c.JSON(http.StatusOK, models.GetMemoResponse{BaseResponse: models.BaseResponse{Result: "NG", ErrorCode: ""}, Data: nil})
+		}
+
+		memos := models.GetMemo(user.ID)
 
 		return c.JSON(http.StatusOK, memos)
 	}
@@ -33,7 +38,12 @@ func PostMemoHandler() echo.HandlerFunc {
 			return c.JSON(http.StatusOK, models.BaseResponse{Result: "NG", ErrorCode: ""})
 		}
 
-		response := models.PostMemo(accessToken, *post)
+		user, err := models.GetUser(accessToken)
+		if err != nil {
+			return c.JSON(http.StatusOK, models.GetMemoResponse{BaseResponse: models.BaseResponse{Result: "NG", ErrorCode: ""}, Data: nil})
+		}
+
+		response := models.PostMemo(user.ID, *post)
 		return c.JSON(http.StatusOK, response)
 	}
 }
@@ -51,7 +61,12 @@ func DeleteMemoHandler() echo.HandlerFunc {
 			return c.JSON(http.StatusOK, models.BaseResponse{Result: "NG", ErrorCode: ""})
 		}
 
-		response := models.DeleteMemo(accessToken, *delete)
+		user, err := models.GetUser(accessToken)
+		if err != nil {
+			return c.JSON(http.StatusOK, models.GetMemoResponse{BaseResponse: models.BaseResponse{Result: "NG", ErrorCode: ""}, Data: nil})
+		}
+
+		response := models.DeleteMemo(user.ID, *delete)
 		return c.JSON(http.StatusOK, response)
 	}
 }
