@@ -1,9 +1,9 @@
 package models
 
 import (
-    "github.com/eifandevs/amby/repo"
-    "github.com/thoas/go-funk"
-    "github.com/jinzhu/gorm"
+	"github.com/eifandevs/amby/repo"
+	"github.com/jinzhu/gorm"
+	"github.com/thoas/go-funk"
 )
 
 type FavoriteInfo struct {
