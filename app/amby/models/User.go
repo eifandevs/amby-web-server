@@ -1,11 +1,12 @@
 package models
 
-import(
-    "github.com/eifandevs/amby/repo"
-    "github.com/jinzhu/gorm"
-    "log"
-    "math/rand"
-    "time"
+import (
+	"log"
+	"math/rand"
+	"time"
+
+	"github.com/eifandevs/amby/repo"
+	"github.com/jinzhu/gorm"
 )
 
 type UserInfo struct {
@@ -24,11 +25,12 @@ type User struct {
 }
 
 type PostUserRequest struct {
-    Item  UserInfo `json:"data"`
+    Data  UserInfo `json:"data"`
 }
 
 type PostUserResponse struct {
-    Item  UserToken `json:"data"`
+    BaseResponse
+    Data  UserToken `json:"data"`
 }
 
 func GetUser(accessToken string) (User, error) {
