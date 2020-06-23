@@ -1,9 +1,9 @@
 package models
 
 import (
-    "github.com/eifandevs/amby/repo"
-    "github.com/thoas/go-funk"
-    "github.com/jinzhu/gorm"
+	"github.com/eifandevs/amby/repo"
+	"github.com/jinzhu/gorm"
+	"github.com/thoas/go-funk"
 )
 
 type MemoInfo struct {
@@ -39,7 +39,7 @@ func GetMemo(userID uint) GetMemoResponse {
 
     memos := []Memo{}
     if err := db.Where("user_id = ?", userID).Find(&memos).Error; err != nil {
-        return GetMemoResponse{BaseResponse: BaseResponse{Result: "NG", ErrorCode: ""}, Data: nil}
+        return GetMemoResponse{BaseResponse: BaseResponse{Code: "", ErrorMessage: ""}, Data: nil}
     }
 
     items := funk.Map(memos, func(memo Memo) MemoInfo {
@@ -47,7 +47,7 @@ func GetMemo(userID uint) GetMemoResponse {
     })
     
     if castedItems, ok := items.([]MemoInfo); ok {
-        return GetMemoResponse{BaseResponse: BaseResponse{Result: "OK", ErrorCode: ""}, Data: castedItems}
+        return GetMemoResponse{BaseResponse: BaseResponse{Code: "200", ErrorMessage: ""}, Data: castedItems}
     } else {
         panic("cannot cast memo item.")
     }
@@ -59,11 +59,11 @@ func PostMemo(userID uint, request PostMemoRequest) BaseResponse {
 
     for _, item := range request.Data {
         if err := db.Create(&Memo{FID: item.FID, UserID: userID, Title: item.Title, Content: item.Content}).Error; err != nil {
-            return BaseResponse{Result: "NG", ErrorCode: ""}
+            return BaseResponse{Code: "", ErrorMessage: ""}
         }
     }
 
-	return BaseResponse{Result: "OK", ErrorCode: ""}
+	return BaseResponse{Code: "200", ErrorMessage: ""}
 }
 
 func DeleteMemo(userID uint, request DeleteMemoRequest) BaseResponse {
@@ -76,9 +76,9 @@ func DeleteMemo(userID uint, request DeleteMemoRequest) BaseResponse {
         deletingRecord.UserID = userID
         db.First(&deletingRecord)
         if err := db.Unscoped().Delete(&deletingRecord).Error; err != nil {
-            return BaseResponse{Result: "NG", ErrorCode: ""}
+            return BaseResponse{Code: "", ErrorMessage: ""}
         }
     }
 
-	return BaseResponse{Result: "OK", ErrorCode: ""}
+	return BaseResponse{Code: "200", ErrorMessage: ""}
 }

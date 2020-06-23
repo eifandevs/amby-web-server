@@ -39,7 +39,7 @@ func GetFavorite(userID uint) GetFavoriteResponse {
 
     favorites := []Favorite{}
     if err := db.Where("user_id = ?", userID).Find(&favorites).Error; err != nil {
-        return GetFavoriteResponse{BaseResponse: BaseResponse{Result: "NG", ErrorCode: ""}, Data: nil}
+        return GetFavoriteResponse{BaseResponse: BaseResponse{Code: "", ErrorMessage: ""}, Data: nil}
     }
 
     items := funk.Map(favorites, func(favorite Favorite) FavoriteInfo {
@@ -47,7 +47,7 @@ func GetFavorite(userID uint) GetFavoriteResponse {
     })
     
     if castedItems, ok := items.([]FavoriteInfo); ok {
-        return GetFavoriteResponse{BaseResponse: BaseResponse{Result: "OK", ErrorCode: ""}, Data: castedItems}
+        return GetFavoriteResponse{BaseResponse: BaseResponse{Code: "200", ErrorMessage: ""}, Data: castedItems}
     } else {
         panic("cannot cast favorite item.")
     }
@@ -59,11 +59,11 @@ func PostFavorite(userID uint, request PostFavoriteRequest) BaseResponse {
 
     for _, item := range request.Data {
         if err := db.Create(&Favorite{FID: item.FID, UserID: userID, Title: item.Title, Url: item.Url}).Error; err != nil {
-            return BaseResponse{Result: "NG", ErrorCode: ""}
+            return BaseResponse{Code: "", ErrorMessage: ""}
         }
     }
 
-	return BaseResponse{Result: "OK", ErrorCode: ""}
+	return BaseResponse{Code: "200", ErrorMessage: ""}
 }
 
 func DeleteFavorite(userID uint, request DeleteFavoriteRequest) BaseResponse {
@@ -76,9 +76,9 @@ func DeleteFavorite(userID uint, request DeleteFavoriteRequest) BaseResponse {
         deletingRecord.UserID = userID
         db.First(&deletingRecord)
         if err := db.Unscoped().Delete(&deletingRecord).Error; err != nil {
-            return BaseResponse{Result: "NG", ErrorCode: ""}
+            return BaseResponse{Code: "", ErrorMessage: ""}
         }
     }
 
-	return BaseResponse{Result: "OK", ErrorCode: ""}
+	return BaseResponse{Code: "200", ErrorMessage: ""}
 }

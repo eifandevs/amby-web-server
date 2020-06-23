@@ -11,12 +11,12 @@ func GetFavoriteHandler() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		accessToken := c.Request().Header.Get("Access-Token")
 		if accessToken == "" {
-			return c.JSON(http.StatusOK, models.GetFavoriteResponse{BaseResponse: models.BaseResponse{Result: "NG", ErrorCode: ""}, Data: nil})
+			return c.JSON(http.StatusOK, models.GetFavoriteResponse{BaseResponse: models.BaseResponse{Code: "", ErrorMessage: ""}, Data: nil})
 		}
 
 		user, err := models.GetUser(accessToken)
 		if err != nil {
-			return c.JSON(http.StatusOK, models.GetFavoriteResponse{BaseResponse: models.BaseResponse{Result: "NG", ErrorCode: ""}, Data: nil})
+			return c.JSON(http.StatusOK, models.GetFavoriteResponse{BaseResponse: models.BaseResponse{Code: "", ErrorMessage: ""}, Data: nil})
 		}
 
 		favorites := models.GetFavorite(user.ID)
@@ -35,12 +35,12 @@ func PostFavoriteHandler() echo.HandlerFunc {
 
 		accessToken := c.Request().Header.Get("Access-Token")
 		if accessToken == "" {
-			return c.JSON(http.StatusOK, models.BaseResponse{Result: "NG", ErrorCode: ""})
+			return c.JSON(http.StatusOK, models.BaseResponse{Code: "", ErrorMessage: ""})
 		}
 
 		user, err := models.GetUser(accessToken)
 		if err != nil {
-			return c.JSON(http.StatusOK, models.GetFavoriteResponse{BaseResponse: models.BaseResponse{Result: "NG", ErrorCode: ""}, Data: nil})
+			return c.JSON(http.StatusOK, models.GetFavoriteResponse{BaseResponse: models.BaseResponse{Code: "", ErrorMessage: ""}, Data: nil})
 		}
 
 		response := models.PostFavorite(user.ID, *post)
@@ -58,12 +58,12 @@ func DeleteFavoriteHandler() echo.HandlerFunc {
 
 		accessToken := c.Request().Header.Get("Access-Token")
 		if accessToken == "" {
-			return c.JSON(http.StatusOK, models.BaseResponse{Result: "NG", ErrorCode: ""})
+			return c.JSON(http.StatusOK, models.BaseResponse{Code: "", ErrorMessage: ""})
 		}
 
 		user, err := models.GetUser(accessToken)
 		if err != nil {
-			return c.JSON(http.StatusOK, models.GetFavoriteResponse{BaseResponse: models.BaseResponse{Result: "NG", ErrorCode: ""}, Data: nil})
+			return c.JSON(http.StatusOK, models.GetFavoriteResponse{BaseResponse: models.BaseResponse{Code: "", ErrorMessage: ""}, Data: nil})
 		}
 
 		response := models.DeleteFavorite(user.ID, *delete)
